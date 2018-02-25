@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="css/dt.css" type="text/css" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="td-body-c">
+        <h3>订单：(修改)</h3>
+        <div class="dt-body">
+            <!-- 表头 -->
+            <div class="dt-body-header">
+                <div class="dt-body-li header-li">图片</div>
+                <div class="dt-body-li header-li header-li-goods">商品名</div>
+                <div class="dt-body-li header-li">单价</div>
+                <div class="dt-body-li header-li">数量</div>
+                <div class="dt-body-li header-li">小计</div>
+            </div>
+            <!-- 内容区域 -->
+            <div class="dt-body-content-pack" id="bodyContent"></div>
+            <!-- 优惠后的价格 -->
+            <div class="totle-price">
+                优惠后的价格：￥
+                <span id="totlePrice">123(修改)</span>
+                元
+            </div>
+        </div>
+        <!-- 收货栏 -->
+        <div class="dt-address">
+            <div class="address-select addr-pubilc">
+                地址选择：
+                <select onchange="select(value)" id="addrSelect">
+                </select>
+                <span class="addr-span" onclick="selectAddr('button')">添加地址</span>
+            </div>
+            <div class="addr-man addr-pubilc">
+                收&nbsp;货&nbsp;人&nbsp;：
+                <span id="addrMan"></span>
+            </div>
+            <div class="addr-phone addr-pubilc">
+                联系方式：
+                <span id="addrPhone"></span>
+            </div>
+        </div>
+        <!-- 结算 -->
+        <div class="settlement">
+            <button type="submit" onclick="submit('submit')" class="submit">提交订单</button>
+        </div>
+    </div>
+
+    <!-- 新增地址 -->
+    <div class="cover" id="cover"></div>
+    <div class="addr-add" id="addrAdd">
+        <div class="addr-add-content">
+            <h3>新增地址：</h3>
+            <div class="address-select addr-pubilc">
+                <span>地址选择：</span>
+                <input name="addAddr" id="addAddr" />
+            </div>
+            <div class="addr-man addr-pubilc">
+                <span>收&nbsp;货&nbsp人;&nbsp;：</span>
+                <input name="addMan" id="addMan" />
+            </div>
+            <div class="addr-phone addr-pubilc">
+                <span>联系方式：</span>
+                <input name="addPhone" id="addPhone" />
+            </div>
+        </div>
+        <button class="addr-add-button submit" onclick="submit('addr')">提 交</button>
+        <button class="addr-add-button cancel" onclick="cancel()">取消</button>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="js/dt.js"></script>
+</body>
+
+</html>
