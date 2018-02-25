@@ -1,4 +1,5 @@
-const api = 'http://116.62.113.4:9066/api'
+// const api = 'http://116.62.113.4:9066/api'
+const api = 'http://localhost:9066/api'
 
 // 存进LocalStorage
 function inputToLocalStorage(key, value) {

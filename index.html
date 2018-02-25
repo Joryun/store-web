@@ -347,13 +347,57 @@
 				// 替换图标
 				imgOperation(userInfo);
 
-				// 获取主分类数据			
+				// --- 获取主分类数据，替换PRODUCTS里的选项 ---			
 				var categoryList = await getCategoryList();
 
-				categoryList.forEach(element => {
-					console.log(element);
-				});
+				var point = 1;
 
+				var formList1 = '';
+				var formList2 = '';
+				var formList3 = '';
+
+				for (let i = 0; i < categoryList.length; i++) {
+					const element = categoryList[i];
+
+					var secondCategoryList = await getSecondCategoryList(element.id);
+					if (point == 1) {
+						formList1 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
+						for (let j = 0; j < secondCategoryList.length; j++) {
+							let secondCategoryItem = secondCategoryList[j];
+							formList1 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
+								secondCategoryItem.name +
+								'</a></li>';
+						}
+						formList1 += '</ul>';
+					}
+					if (point == 2) {
+						formList2 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
+						for (let j = 0; j < secondCategoryList.length; j++) {
+							let secondCategoryItem = secondCategoryList[j];
+							// formList2 += '<li><a href="javascript:;" onclick="' + getProductPage(secondCategoryItem.id); + '">' +
+							// 	secondCategoryItem.name +
+							// 	'</a></li>';
+							formList2 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
+								secondCategoryItem.name +
+								'</a></li>';
+						}
+						formList2 += '</ul>';
+					}
+					if (point == 3) {
+						formList3 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
+						for (let j = 0; j < secondCategoryList.length; j++) {
+							let secondCategoryItem = secondCategoryList[j];
+							formList3 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
+								secondCategoryItem.name +
+								'</a></li>';
+						}
+						formList3 += '</ul>';
+					}
+					++point;
+				}
+				$('#category-mobile').html(formList1);
+				$('#category-computer').html(formList2);
+				$('#category-electrical').html(formList3);
 			}
 
 			// 替换默认登录注册弹出框 -> 个人头像
@@ -379,6 +423,11 @@
 				$('#modal-content').hide();
 				$('#user-info-content').show();
 			}
+		}
+
+		// 获取产品列表
+		async function getProductPage(secondCategoryItemId) {
+			window.location.href = 'products.html?secondCategoryItemId=' + secondCategoryItemId;
 		}
 	</script>
 
@@ -408,65 +457,18 @@
 							</a>
 							<ul class="dropdown-menu multi-column columns-3">
 								<div class="row">
-									<div class="col-sm-3">
-										<ul class="multi-column-dropdown">
-											<h6>Mobiles</h6>
-											<li>
-												<a href="products.html">Mobile Phones</a>
-											</li>
-											<li>
-												<a href="products.html">Mp3 Players
-													<span style="display:none;">New</span>
-												</a>
-											</li>
-											<li>
-												<a href="products.html">Popular Models</a>
-											</li>
-											<li>
-												<a href="products.html">All Tablets
-													<span>New</span>
-												</a>
-											</li>
-										</ul>
+									<div id="category-mobile" class="col-sm-3">
+
 									</div>
-									<div class="col-sm-3">
-										<ul class="multi-column-dropdown">
-											<h6>Accessories</h6>
-											<li>
-												<a href="products1.html">Laptop</a>
-											</li>
-											<li>
-												<a href="products1.html">Desktop</a>
-											</li>
-											<li>
-												<a href="products1.html">Wearables
-													<span>New</span>
-												</a>
-											</li>
-											<li>
-												<a href="products1.html">
-													<i>Summer Store</i>
-												</a>
-											</li>
-										</ul>
+
+									<div id="category-computer" class="col-sm-3">
+
 									</div>
-									<div class="col-sm-2">
-										<ul class="multi-column-dropdown">
-											<h6>Home</h6>
-											<li>
-												<a href="products2.html">Tv</a>
-											</li>
-											<li>
-												<a href="products2.html">Camera</a>
-											</li>
-											<li>
-												<a href="products2.html">AC</a>
-											</li>
-											<li>
-												<a href="products2.html">Grinders</a>
-											</li>
-										</ul>
+
+									<div id="category-electrical" class="col-sm-2">
+
 									</div>
+
 									<div class="col-sm-4">
 										<div class="w3ls_products_pos">
 											<h4>入驻店铺
