@@ -170,7 +170,6 @@ function userLogin() {
 async function getUserInfo() {
     var token = getLocalStorage('token') || '',
         data = [];
-    console.log(token);
     await $.ajax({
         url: `${api}/user`,
         method: 'GET',
