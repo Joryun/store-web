@@ -105,6 +105,71 @@ async function getProductList(secondCategoryId) {
     return data;
 }
 
+// 根据次级分类，数目获取产品列表
+async function getProductListByLimit(secondCategoryId, num) {
+    var token = getLocalStorage('token'),
+        data = [];
+    await $.ajax({
+        url: `${api}/product/page?secondCategoryId=` + secondCategoryId + '&num=' + num,
+        method: 'GET',
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        contentType: "application/json",
+        dataType: "json",
+        success: function (res) {
+            data = res.content;
+            console.log(data);
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+            }
+        }
+    });
+
+    return data;
+}
+
+// 获取产品详情
+async function getProductDetail(productId, props) {
+    var token = getLocalStorage('token'),
+        data = [];
+    await $.ajax({
+        url: `${api}/product/one?productId=` + productId + '&props=' + props,
+        method: 'GET',
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        contentType: "application/json",
+        dataType: "json",
+        success: function (res) {
+            data = res;
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+            }
+        }
+    });
+
+    return data;
+}
+
 /**
  * 用户模块
  */
