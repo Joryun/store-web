@@ -119,7 +119,6 @@ async function getProductListByLimit(secondCategoryId, num) {
         dataType: "json",
         success: function (res) {
             data = res.content;
-            console.log(data);
         },
         error: function (res) {
             if (res.status === 400) {
@@ -170,11 +169,75 @@ async function getProductDetail(productId, props) {
     return data;
 }
 
+// 获取热销产品
+async function getHotProduct(num) {
+    var token = getLocalStorage('token'),
+        data = [];
+    await $.ajax({
+        url: `${api}/product/hot?num=` + num,
+        method: 'GET',
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        contentType: "application/json",
+        dataType: "json",
+        success: function (res) {
+            data = res;
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+            }
+        }
+    });
+
+    return data;
+}
+
+// 获取最新产品
+async function getNewProduct(num) {
+    var token = getLocalStorage('token'),
+        data = [];
+    await $.ajax({
+        url: `${api}/product/new?num=` + num,
+        method: 'GET',
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        contentType: "application/json",
+        dataType: "json",
+        success: function (res) {
+            data = res;
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+            }
+        }
+    });
+
+    return data;
+}
+
 /**
  * 购物车模块
  */
 
- // 获取购物车列表
+// 获取购物车列表
 async function getCartList() {
     var token = getLocalStorage('token'),
         data = [];

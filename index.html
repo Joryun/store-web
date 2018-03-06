@@ -331,8 +331,6 @@
 				$('#myModal88').modal('hide');
 				// 替换图标
 				imgOperation(userInfo);
-
-				// window.location.href = 'index.html';
 			}
 
 			// 默认不登录时均可浏览的信息
@@ -579,6 +577,80 @@
 			$('#tablet-modal').html(tabletModalFormList);
 			$('#tv-modal').html(tvModalFormList);
 			$('#air-modal').html(airModalFormList);
+
+			// --- update new product && hot product ---
+			// localStorage是否存在modal数据，如若存在，直接赋值；如若不存在，请求后台数据
+
+			// hot product
+			let hotProductList = '';
+			let hotProductForm = '';
+
+			let hotProductListStr = getLocalStorage("hotProductList");
+			if (hotProductListStr != null) {
+				hotProductList = JSON.parse(hotProductListStr);
+			} else {
+				hotProductList = await getHotProduct(4);
+				inputToLocalStorage("hotProductList", JSON.stringify(hotProductList));
+			}
+			if (hotProductList.length > 0) {
+				for (let j = 0; j < hotProductList.length; j++) {
+					let mobileItem = hotProductList[j];
+					let mobileModalFormItem = '';
+					mobileModalFormItem += '<div class="col-md-3 agileinfo_new_products_grid">';
+					mobileModalFormItem += '<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1"><div class="hs-wrapper hs-wrapper1">';
+					for (let i = 0; i < 5; i++) {
+						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
+					}
+					mobileModalFormItem += '<div class="w3_hs_bottom w3_hs_bottom_sub"><ul><li>';
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id +
+						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
+					mobileModalFormItem += '<h5><span href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
+						')">' + mobileItem.productTitle + '</span></h5>';
+					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
+						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
+					mobileModalFormItem += '<button onclick="addCart(\'' + mobileItem.id +
+						'\',\'1\',\'' + mobileItem.productImage + '\')" class="w3ls-cart">Add to cart</button></form></div></div></div>';
+
+					hotProductForm += mobileModalFormItem;
+				}
+			}
+			$('#hotProduct').html(hotProductForm);
+
+			// new product
+			let newProductList = '';
+			let newProductForm = '';
+
+			let newProductListStr = getLocalStorage("newProductList");
+			if (hotProductListStr != null) {
+				newProductList = JSON.parse(newProductListStr);
+			} else {
+				newProductList = await getNewProduct(4);
+				inputToLocalStorage("newProductList", JSON.stringify(newProductList));
+			}
+			if (newProductList.length > 0) {
+				for (let j = 0; j < newProductList.length; j++) {
+					let mobileItem = newProductList[j];
+					let mobileModalFormItem = '';
+					mobileModalFormItem += '<div class="col-md-3 agileinfo_new_products_grid">';
+					mobileModalFormItem += '<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1"><div class="hs-wrapper hs-wrapper1">';
+					for (let i = 0; i < 5; i++) {
+						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
+					}
+					mobileModalFormItem += '<div class="w3_hs_bottom w3_hs_bottom_sub"><ul><li>';
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id +
+						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
+					mobileModalFormItem += '<h5><span href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
+						')">' + mobileItem.productTitle + '</span></h5>';
+					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
+						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
+					mobileModalFormItem += '<button onclick="addCart(\'' + mobileItem.id +
+						'\',\'1\',\'' + mobileItem.productImage + '\')" class="w3ls-cart">Add to cart</button></form></div></div></div>';
+
+					newProductForm += mobileModalFormItem;
+				}
+			}
+			$('#newProduct').html(newProductForm);
+
 		}
 
 		// --- function ---
@@ -972,151 +1044,8 @@
 	<div class="new-products">
 		<div class="container">
 			<h3>New Products</h3>
-			<div class="agileinfo_new_products_grids">
-				<div class="col-md-3 agileinfo_new_products_grid">
-					<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1">
-						<div class="hs-wrapper hs-wrapper1">
-							<img src="images/25.jpg" alt=" " class="img-responsive" />
-							<img src="images/23.jpg" alt=" " class="img-responsive" />
-							<img src="images/24.jpg" alt=" " class="img-responsive" />
-							<img src="images/22.jpg" alt=" " class="img-responsive" />
-							<img src="images/26.jpg" alt=" " class="img-responsive" />
-							<div class="w3_hs_bottom w3_hs_bottom_sub">
-								<ul>
-									<li>
-										<a href="#" data-toggle="modal" data-target="#myModal">
-											<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<h5>
-							<a href="single.html">Laptops</a>
-						</h5>
-						<div class="simpleCart_shelfItem">
-							<p>
-								<span>$520</span>
-								<i class="item_price">$500</i>
-							</p>
-							<form action="#" method="post">
-								<input type="hidden" name="cmd" value="_cart">
-								<input type="hidden" name="add" value="1">
-								<input type="hidden" name="w3ls_item" value="Red Laptop">
-								<input type="hidden" name="amount" value="500.00">
-								<button type="submit" class="w3ls-cart">Add to cart</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 agileinfo_new_products_grid">
-					<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1">
-						<div class="hs-wrapper hs-wrapper1">
-							<img src="images/27.jpg" alt=" " class="img-responsive" />
-							<img src="images/28.jpg" alt=" " class="img-responsive" />
-							<img src="images/29.jpg" alt=" " class="img-responsive" />
-							<img src="images/30.jpg" alt=" " class="img-responsive" />
-							<img src="images/31.jpg" alt=" " class="img-responsive" />
-							<div class="w3_hs_bottom w3_hs_bottom_sub">
-								<ul>
-									<li>
-										<a href="#" data-toggle="modal" data-target="#myModal">
-											<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<h5>
-							<a href="single.html">Black Phone</a>
-						</h5>
-						<div class="simpleCart_shelfItem">
-							<p>
-								<span>$380</span>
-								<i class="item_price">$370</i>
-							</p>
-							<form action="#" method="post">
-								<input type="hidden" name="cmd" value="_cart">
-								<input type="hidden" name="add" value="1">
-								<input type="hidden" name="w3ls_item" value="Black Phone">
-								<input type="hidden" name="amount" value="370.00">
-								<button type="submit" class="w3ls-cart">Add to cart</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 agileinfo_new_products_grid">
-					<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1">
-						<div class="hs-wrapper hs-wrapper1">
-							<img src="images/34.jpg" alt=" " class="img-responsive" />
-							<img src="images/33.jpg" alt=" " class="img-responsive" />
-							<img src="images/32.jpg" alt=" " class="img-responsive" />
-							<img src="images/35.jpg" alt=" " class="img-responsive" />
-							<img src="images/36.jpg" alt=" " class="img-responsive" />
-							<div class="w3_hs_bottom w3_hs_bottom_sub">
-								<ul>
-									<li>
-										<a href="#" data-toggle="modal" data-target="#myModal">
-											<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<h5>
-							<a href="single.html">Kids Toy</a>
-						</h5>
-						<div class="simpleCart_shelfItem">
-							<p>
-								<span>$150</span>
-								<i class="item_price">$100</i>
-							</p>
-							<form action="#" method="post">
-								<input type="hidden" name="cmd" value="_cart">
-								<input type="hidden" name="add" value="1">
-								<input type="hidden" name="w3ls_item" value="Kids Toy">
-								<input type="hidden" name="amount" value="100.00">
-								<button type="submit" class="w3ls-cart">Add to cart</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 agileinfo_new_products_grid">
-					<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1">
-						<div class="hs-wrapper hs-wrapper1">
-							<img src="images/37.jpg" alt=" " class="img-responsive" />
-							<img src="images/38.jpg" alt=" " class="img-responsive" />
-							<img src="images/39.jpg" alt=" " class="img-responsive" />
-							<img src="images/40.jpg" alt=" " class="img-responsive" />
-							<img src="images/41.jpg" alt=" " class="img-responsive" />
-							<div class="w3_hs_bottom w3_hs_bottom_sub">
-								<ul>
-									<li>
-										<a href="#" data-toggle="modal" data-target="#myModal">
-											<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<h5>
-							<a href="single.html">Induction Stove</a>
-						</h5>
-						<div class="simpleCart_shelfItem">
-							<p>
-								<span>$280</span>
-								<i class="item_price">$250</i>
-							</p>
-							<form action="#" method="post">
-								<input type="hidden" name="cmd" value="_cart">
-								<input type="hidden" name="add" value="1">
-								<input type="hidden" name="w3ls_item" value="Induction Stove">
-								<input type="hidden" name="amount" value="250.00">
-								<button type="submit" class="w3ls-cart">Add to cart</button>
-							</form>
-						</div>
-					</div>
-				</div>
+			<div id="newProduct" class="agileinfo_new_products_grids">
+
 				<div class="clearfix"> </div>
 			</div>
 		</div>
@@ -1127,151 +1056,8 @@
 	<div class="new-products">
 		<div class="container">
 			<h3>Hot Products</h3>
-			<div class="agileinfo_new_products_grids">
-				<div class="col-md-3 agileinfo_new_products_grid">
-					<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1">
-						<div class="hs-wrapper hs-wrapper1">
-							<img src="images/25.jpg" alt=" " class="img-responsive" />
-							<img src="images/23.jpg" alt=" " class="img-responsive" />
-							<img src="images/24.jpg" alt=" " class="img-responsive" />
-							<img src="images/22.jpg" alt=" " class="img-responsive" />
-							<img src="images/26.jpg" alt=" " class="img-responsive" />
-							<div class="w3_hs_bottom w3_hs_bottom_sub">
-								<ul>
-									<li>
-										<a href="#" data-toggle="modal" data-target="#myModal">
-											<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<h5>
-							<a href="single.html">Laptops</a>
-						</h5>
-						<div class="simpleCart_shelfItem">
-							<p>
-								<span>$520</span>
-								<i class="item_price">$500</i>
-							</p>
-							<form action="#" method="post">
-								<input type="hidden" name="cmd" value="_cart">
-								<input type="hidden" name="add" value="1">
-								<input type="hidden" name="w3ls_item" value="Red Laptop">
-								<input type="hidden" name="amount" value="500.00">
-								<button type="submit" class="w3ls-cart">Add to cart</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 agileinfo_new_products_grid">
-					<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1">
-						<div class="hs-wrapper hs-wrapper1">
-							<img src="images/27.jpg" alt=" " class="img-responsive" />
-							<img src="images/28.jpg" alt=" " class="img-responsive" />
-							<img src="images/29.jpg" alt=" " class="img-responsive" />
-							<img src="images/30.jpg" alt=" " class="img-responsive" />
-							<img src="images/31.jpg" alt=" " class="img-responsive" />
-							<div class="w3_hs_bottom w3_hs_bottom_sub">
-								<ul>
-									<li>
-										<a href="#" data-toggle="modal" data-target="#myModal">
-											<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<h5>
-							<a href="single.html">Black Phone</a>
-						</h5>
-						<div class="simpleCart_shelfItem">
-							<p>
-								<span>$380</span>
-								<i class="item_price">$370</i>
-							</p>
-							<form action="#" method="post">
-								<input type="hidden" name="cmd" value="_cart">
-								<input type="hidden" name="add" value="1">
-								<input type="hidden" name="w3ls_item" value="Black Phone">
-								<input type="hidden" name="amount" value="370.00">
-								<button type="submit" class="w3ls-cart">Add to cart</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 agileinfo_new_products_grid">
-					<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1">
-						<div class="hs-wrapper hs-wrapper1">
-							<img src="images/34.jpg" alt=" " class="img-responsive" />
-							<img src="images/33.jpg" alt=" " class="img-responsive" />
-							<img src="images/32.jpg" alt=" " class="img-responsive" />
-							<img src="images/35.jpg" alt=" " class="img-responsive" />
-							<img src="images/36.jpg" alt=" " class="img-responsive" />
-							<div class="w3_hs_bottom w3_hs_bottom_sub">
-								<ul>
-									<li>
-										<a href="#" data-toggle="modal" data-target="#myModal">
-											<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<h5>
-							<a href="single.html">Kids Toy</a>
-						</h5>
-						<div class="simpleCart_shelfItem">
-							<p>
-								<span>$150</span>
-								<i class="item_price">$100</i>
-							</p>
-							<form action="#" method="post">
-								<input type="hidden" name="cmd" value="_cart">
-								<input type="hidden" name="add" value="1">
-								<input type="hidden" name="w3ls_item" value="Kids Toy">
-								<input type="hidden" name="amount" value="100.00">
-								<button type="submit" class="w3ls-cart">Add to cart</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 agileinfo_new_products_grid">
-					<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1">
-						<div class="hs-wrapper hs-wrapper1">
-							<img src="images/37.jpg" alt=" " class="img-responsive" />
-							<img src="images/38.jpg" alt=" " class="img-responsive" />
-							<img src="images/39.jpg" alt=" " class="img-responsive" />
-							<img src="images/40.jpg" alt=" " class="img-responsive" />
-							<img src="images/41.jpg" alt=" " class="img-responsive" />
-							<div class="w3_hs_bottom w3_hs_bottom_sub">
-								<ul>
-									<li>
-										<a href="#" data-toggle="modal" data-target="#myModal">
-											<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<h5>
-							<a href="single.html">Induction Stove</a>
-						</h5>
-						<div class="simpleCart_shelfItem">
-							<p>
-								<span>$280</span>
-								<i class="item_price">$250</i>
-							</p>
-							<form action="#" method="post">
-								<input type="hidden" name="cmd" value="_cart">
-								<input type="hidden" name="add" value="1">
-								<input type="hidden" name="w3ls_item" value="Induction Stove">
-								<input type="hidden" name="amount" value="250.00">
-								<button type="submit" class="w3ls-cart">Add to cart</button>
-							</form>
-						</div>
-					</div>
-				</div>
+			<div id="hotProduct" class="agileinfo_new_products_grids">
+
 				<div class="clearfix"> </div>
 			</div>
 		</div>
