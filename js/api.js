@@ -171,6 +171,42 @@ async function getProductDetail(productId, props) {
 }
 
 /**
+ * 购物车模块
+ */
+
+ // 获取购物车列表
+async function getCartList() {
+    var token = getLocalStorage('token'),
+        data = [];
+    await $.ajax({
+        url: `${api}/cart/list`,
+        method: 'GET',
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        contentType: "application/json",
+        dataType: "json",
+        success: function (res) {
+            data = res;
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+            }
+        }
+    });
+
+    return data;
+}
+
+/**
  * 用户模块
  */
 
@@ -180,8 +216,6 @@ function userLogin() {
         password = $('#sign-in-password');
     var phoneNum = phone.val(),
         passwordNum = password.val();
-    console.log(phone);
-    console.log(phoneNum);
 
     if (!(/^1[34578]\d{9}$/.test(phoneNum))) {
         alert("手机号码有误，请重填");
@@ -199,26 +233,11 @@ function userLogin() {
         }),
 
         success: function (res) {
-            console.log(res);
             var token = res.token || '';
             if (token.length > 0) {
                 inputToLocalStorage('token', token);
-                $('#myModal88').modal('hide');
-                // 替换弹出框内容
-                var data = getUserInfo();
-                console.log(data);
-                if (!isEmptyObject(data)) {
-                    var headImage = data.headImage || 'http://osnwk5h1c.bkt.clouddn.com/image/store/default-head-image.jpeg';
-                    console.log(headImage);
-
-                    $('#default-icon').css("display", "none");
-                    $('#headImage').css("display", "show");
-
-                }
-
-                getCategoryList();
+                window.location.href = 'index.html';
             }
-
         },
         error: function (res) {
             if (res.status === 400) {

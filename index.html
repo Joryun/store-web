@@ -234,7 +234,7 @@
 												<input id="set-password-account" name="set-password-account" placeholder="Account" type="text" required="">
 												<input id="set-password" name="set-password" placeholder="Password" type="password" required="">
 												<div class="sign-up">
-													<input type="submit" onclick="setPassword();" value="Set" />
+													<input type="submit" onclick="setPassword();" value="Update" />
 												</div>
 
 											</div>
@@ -298,7 +298,7 @@
 					<input type="hidden" name="cmd" value="_cart" />
 					<input type="hidden" name="display" value="1" />
 					<button class="w3view-cart" type="submit" name="submit" value="">
-						<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+						<i onclick="searchCart()" class="fa fa-cart-arrow-down" aria-hidden="true"></i>
 					</button>
 				</form>
 			</div>
@@ -331,6 +331,8 @@
 				$('#myModal88').modal('hide');
 				// 替换图标
 				imgOperation(userInfo);
+
+				// window.location.href = 'index.html';
 			}
 
 			// 默认不登录时均可浏览的信息
@@ -448,8 +450,6 @@
 				inputToLocalStorage("airList", JSON.stringify(airList));
 			}
 
-			var props = '';
-
 			// 详情modal隐藏时执行清空操作
 			$('#myModal').on('hide.bs.modal', function () {
 				let productDetailForm = '';
@@ -457,6 +457,7 @@
 				$('#productDetailMessage').html(productDetailForm);
 			});
 
+			var props = '';
 
 			// 1、update mobileModalFormList
 			if (mobileList.length > 0) {
@@ -468,14 +469,14 @@
 						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
 					}
 					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id +
 						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
 					mobileModalFormItem += '<h5><span href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
 						')">' + mobileItem.productTitle + '</span></h5>';
 					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
 						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+					mobileModalFormItem += '<button onclick="addCart(\'' + mobileItem.id +
+						'\',\'1\',\'' + mobileItem.productImage + '\')" class="w3ls-cart">Add to cart</button></form></div></div>';
 
 					mobileModalFormList += mobileModalFormItem;
 				}
@@ -491,14 +492,14 @@
 						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
 					}
 					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id +
 						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
 					mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
 						')">' + mobileItem.productTitle + '</a></h5>';
 					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
 						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+					mobileModalFormItem += '<button onclick="addCart(\'' + mobileItem.id +
+						'\',\'1\',\'' + mobileItem.productImage + '\')" class="w3ls-cart">Add to cart</button></form></div></div>';
 
 					laptopModalFormList += mobileModalFormItem;
 				}
@@ -514,14 +515,14 @@
 						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
 					}
 					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id +
 						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
 					mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
 						')">' + mobileItem.productTitle + '</a></h5>';
 					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
 						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+					mobileModalFormItem += '<button onclick="addCart(\'' + mobileItem.id +
+						'\',\'1\',\'' + mobileItem.productImage + '\')" class="w3ls-cart">Add to cart</button></form></div></div>';
 
 					tabletModalFormList += mobileModalFormItem;
 				}
@@ -537,14 +538,14 @@
 						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
 					}
 					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id +
 						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
 					mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
 						')">' + mobileItem.productTitle + '</a></h5>';
 					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
 						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+					mobileModalFormItem += '<button onclick="addCart(\'' + mobileItem.id +
+						'\',\'1\',\'' + mobileItem.productImage + '\')" class="w3ls-cart">Add to cart</button></form></div></div>';
 
 					tvModalFormList += mobileModalFormItem;
 				}
@@ -560,14 +561,14 @@
 						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
 					}
 					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id +
 						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
 					mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
 						')">' + mobileItem.productTitle + '</a></h5>';
 					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
 						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+					mobileModalFormItem += '<button onclick="addCart(\'' + mobileItem.id +
+						'\',\'1\',\'' + mobileItem.productImage + '\')" class="w3ls-cart">Add to cart</button></form></div></div>';
 
 					airModalFormList += mobileModalFormItem;
 				}
@@ -671,8 +672,6 @@
 
 			$('#productDetailMessage').html(productDetailMessageForm);
 
-
-
 		}
 
 		// 进入产品详情页
@@ -681,13 +680,70 @@
 		}
 
 		// 添加购物车
-		async function addCart(productId, num, productPicture, props) {
-			$('#w3lssbmincart').show();
+		async function addCart(productId, num, productPicture) {
+
+			console.log(productId);
+			console.log(num);
+			console.log(productPicture);
+
+			// $('#w3lssbmincart').show();
+			// $('#cartItemForm').show();
 		}
 
 		// modal 详情页 添加购物车
 		async function addCartContainSku(productId, num, productPicture) {
 
+		}
+
+		// 查询购物车
+		async function searchCart() {
+			var cartItemListForm = '';
+
+			var totalFee = 0;
+
+			cartItemListForm += '<form><button type="button" class="sbmincart-closer">×</button><ul>';
+
+			var cartItemList = await getCartList();
+			for (let i = 0; i < cartItemList.length; i++) {
+				const element = cartItemList[i];
+
+				totalFee += element.productTotalFee;
+
+				let cartItemForm = '';
+				cartItemForm += '<li class="sbmincart-item"><div class="sbmincart-details-name">';
+				cartItemForm += '<span class="sbmincart-name">' + element.productName +
+					'</span><ul class="sbmincart-attributes"> </ul></div>';
+				cartItemForm += '<div class="sbmincart-details-quantity">';
+				cartItemForm +=
+					'<input class="sbmincart-quantity" data-sbmincart-idx="0" name="quantity_1" type="text" pattern="[0-9]*" value="' +
+					element.productNum + '" autocomplete="off"> </div>';
+				cartItemForm +=
+					'<div class="sbmincart-details-remove"><button onclick="removeCartItem(\'' + element.productId + '\',\'' + element
+					.skuProperties + '\')" type="button" class="sbmincart-remove">×</button></div>';
+				cartItemForm += '<div class="sbmincart-details-price"><span class="sbmincart-price">￥' + element.productTotalFee +
+					'</span></div></li>';
+
+				cartItemListForm += cartItemForm;
+			}
+
+			cartItemListForm += '</ul>'
+			cartItemListForm += '<div class="sbmincart-footer">'
+			cartItemListForm += '<div class="sbmincart-subtotal"> Subtotal: ￥' + totalFee + ' </div>';
+			cartItemListForm += '<button onclick="intoOrder()" class="sbmincart-submit" type="submit">To Pay</button>';
+			cartItemListForm += '</div></form>';
+
+			$('#w3lssbmincart').html(cartItemListForm);
+
+		}
+
+		// 删除购物车产品
+		async function removeCartItem(productId, props) {
+
+		}
+
+		// 下订单
+		async function intoOrder() {
+			alert("下订单");
 		}
 	</script>
 
@@ -878,43 +934,6 @@
 						</div>
 						<div id="productDetailMessage" class="col-md-7 modal_body_right">
 
-							<!-- <h4 id="productTitle">The Best Mobile Phone 3GB</h4>
-							<p id="productDetail">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-								irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-
-							<h5>Color</h5>
-							<div id="skuGroup1" class="color-quality">
-								<ul>
-									<li>
-										<input type="radio" name="sku1" id="sku1-1" value="option1"> 选项 1
-									</li>
-									<li>
-										<input type="radio" name="sku1" id="sku1-2" value="option2"> 选项 2
-									</li>
-								</ul>
-							</div>
-
-							<h5>Version</h5>
-							<div id="skuGroup2" class="color-quality">
-								<ul>
-									<li>
-										<input type="radio" name="sku2" id="sku2-1" value="option1"> 选项 1
-									</li>
-									<li>
-										<input type="radio" name="sku2" id="sku2-2" value="option2"> 选项 2
-									</li>
-								</ul>
-							</div>
-
-							<br/>
-							<div id="productDetail-addCart" class="modal_body_right_cart simpleCart_shelfItem">
-								<p>
-									<span id="originalPrice">￥380</span>
-									<i id="productPrice" class="item_price">￥350</i>
-								</p>
-								<button type="submit" class="w3ls-cart">Add to cart</button>
-							</div> -->
-
 						</div>
 						<div class="clearfix"> </div>
 					</div>
@@ -948,79 +967,6 @@
 		</div>
 	</div>
 	<!-- //banner-bottom1 -->
-	<!-- special-deals -->
-	<div class="special-deals">
-		<div class="container">
-			<h2>Special Deals</h2>
-			<div class="w3agile_special_deals_grids">
-				<div class="col-md-7 w3agile_special_deals_grid_left">
-					<div class="w3agile_special_deals_grid_left_grid">
-						<img src="images/21.jpg" alt=" " class="img-responsive" />
-						<div class="w3agile_special_deals_grid_left_grid_pos1">
-							<h5>30%
-								<span>Off/-</span>
-							</h5>
-						</div>
-						<div class="w3agile_special_deals_grid_left_grid_pos">
-							<h4>We Offer
-								<span>Best Products</span>
-							</h4>
-						</div>
-					</div>
-					<div class="wmuSlider example1">
-						<div class="wmuSliderWrapper">
-							<article style="position: absolute; width: 100%; opacity: 0;">
-								<div class="banner-wrap">
-									<div class="w3agile_special_deals_grid_left_grid1">
-										<img src="images/t1.png" alt=" " class="img-responsive" />
-										<p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum
-											qui dolorem eum fugiat quo voluptas nulla pariatur</p>
-										<h4>Laura</h4>
-									</div>
-								</div>
-							</article>
-							<article style="position: absolute; width: 100%; opacity: 0;">
-								<div class="banner-wrap">
-									<div class="w3agile_special_deals_grid_left_grid1">
-										<img src="images/t2.png" alt=" " class="img-responsive" />
-										<p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum
-											qui dolorem eum fugiat quo voluptas nulla pariatur</p>
-										<h4>Michael</h4>
-									</div>
-								</div>
-							</article>
-							<article style="position: absolute; width: 100%; opacity: 0;">
-								<div class="banner-wrap">
-									<div class="w3agile_special_deals_grid_left_grid1">
-										<img src="images/t3.png" alt=" " class="img-responsive" />
-										<p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum
-											qui dolorem eum fugiat quo voluptas nulla pariatur</p>
-										<h4>Rosy</h4>
-									</div>
-								</div>
-							</article>
-						</div>
-					</div>
-					<script src="js/jquery.wmuSlider.js"></script>
-					<script>
-						$('.example1').wmuSlider();
-					</script>
-				</div>
-				<div class="col-md-5 w3agile_special_deals_grid_right">
-					<img src="images/20.jpg" alt=" " class="img-responsive" />
-					<div class="w3agile_special_deals_grid_right_pos">
-						<h4>Women's
-							<span>Special</span>
-						</h4>
-						<h5>save up
-							<span>to</span> 30%</h5>
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-	</div>
-	<!-- //special-deals -->
 
 	<!-- new-products -->
 	<div class="new-products">
@@ -1352,9 +1298,9 @@
 
 	<!-- cart content -->
 	<div id="w3lssbmincart">
-		<form method="post" class="" action="products.html" target="">
+		<!-- <form id="cartItemForm">
 			<button type="button" class="sbmincart-closer">×</button>
-			<ul>
+			<ul id="cartItemList">
 				<li class="sbmincart-item">
 					<div class="sbmincart-details-name">
 						<span class="sbmincart-name">Mobile Phone1</span>
@@ -1369,14 +1315,13 @@
 						<span class="sbmincart-price">350.00</span>
 					</div>
 				</li>
+
 			</ul>
-			<div class="sbmincart-footer">
+			<div id="toPay" class="sbmincart-footer">
 				<div class="sbmincart-subtotal"> Subtotal: ￥652.00 </div>
-				<button class="sbmincart-submit" type="submit" data-sbmincart-alt="undefined">Pay More</button>
+				<button class="sbmincart-submit" type="submit">Pay More</button>
 			</div>
-			<input type="hidden" name="cmd" value="_cart">
-			<input type="hidden" name="upload" value="1">
-			<input type="hidden" name="bn" value="sbmincart_AddToCart_WPS_US"> </form>
+		</form> -->
 	</div>
 	<!-- //cart content -->
 
