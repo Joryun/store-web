@@ -331,270 +331,279 @@
 				$('#myModal88').modal('hide');
 				// 替换图标
 				imgOperation(userInfo);
-
-				// --- 获取主分类数据，替换PRODUCTS里的选项 ---			
-				var categoryList = await getCategoryList();
-
-				var point = 1;
-
-				var formList1 = '';
-				var formList2 = '';
-				var formList3 = '';
-
-				for (let i = 0; i < categoryList.length; i++) {
-					const element = categoryList[i];
-
-					var secondCategoryList = await getSecondCategoryList(element.id);
-					if (point == 1) {
-						// formList1 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
-						formList1 += '<ul class="multi-column-dropdown"><h6>Mobile</h6>';
-						for (let j = 0; j < secondCategoryList.length; j++) {
-							let secondCategoryItem = secondCategoryList[j];
-							formList1 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
-								secondCategoryItem.name +
-								'</a></li>';
-						}
-						formList1 += '</ul>';
-					}
-					if (point == 2) {
-						// formList2 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
-						formList2 += '<ul class="multi-column-dropdown"><h6>PC</h6>';
-						for (let j = 0; j < secondCategoryList.length; j++) {
-							let secondCategoryItem = secondCategoryList[j];
-							// formList2 += '<li><a href="javascript:;" onclick="' + getProductPage(secondCategoryItem.id); + '">' +
-							// 	secondCategoryItem.name +
-							// 	'</a></li>';
-							formList2 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
-								secondCategoryItem.name +
-								'</a></li>';
-						}
-						formList2 += '</ul>';
-					}
-					if (point == 3) {
-						// formList3 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
-						formList3 += '<ul class="multi-column-dropdown"><h6>Appliances</h6>';
-						for (let j = 0; j < secondCategoryList.length; j++) {
-							let secondCategoryItem = secondCategoryList[j];
-							formList3 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
-								secondCategoryItem.name +
-								'</a></li>';
-						}
-						formList3 += '</ul>';
-					}
-					++point;
-				}
-				$('#category-mobile').html(formList1);
-				$('#category-computer').html(formList2);
-				$('#category-electrical').html(formList3);
-
-				//  --- 主页各产品栏目 ---
-
-				// Modal 五个tab panel
-
-				var mobileModalFormList = '';
-				var laptopModalFormList = '';
-				var tabletModalFormList = '';
-				var tvModalFormList = '';
-				var airModalFormList = '';
-
-				let mobileList = '';
-				let laptopList = '';
-				let tabletList = '';
-				let tvList = '';
-				let airList = '';
-
-				// localStorage是否存在modal数据，如若存在，直接赋值；如若不存在，请求后台数据
-				let mobileListStr = getLocalStorage("mobileList");
-
-				if (mobileListStr != null) {
-					mobileList = JSON.parse(mobileListStr);
-				} else {
-					mobileList = await getProductListByLimit(1, 6);
-					inputToLocalStorage("mobileList", JSON.stringify(mobileList));
-				}
-
-				let laptopListStr = getLocalStorage("laptopList");
-				if (laptopListStr != null) {
-					laptopList = JSON.parse(laptopListStr);
-				} else {
-					laptopList = await getProductListByLimit(3, 6);
-					inputToLocalStorage("laptopList", JSON.stringify(laptopList));
-				}
-
-				let tabletListStr = getLocalStorage("tabletList");
-				if (tabletListStr != null) {
-					tabletList = JSON.parse(tabletListStr);
-				} else {
-					tabletList = await getProductListByLimit(5, 6);
-					inputToLocalStorage("tabletList", JSON.stringify(tabletList));
-				}
-
-				let tvListStr = getLocalStorage("tvList");
-				if (tvListStr != null) {
-					tvList = JSON.parse(tvListStr);
-				} else {
-					tvList = await getProductListByLimit(8, 6);
-					inputToLocalStorage("tvList", JSON.stringify(tvList));
-				}
-
-				let airListStr = getLocalStorage("airList");
-				if (airListStr != null) {
-					airList = JSON.parse(airListStr);
-				} else {
-					airList = await getProductListByLimit(9, 6);
-					inputToLocalStorage("airList", JSON.stringify(airList));
-				}
-
-				var props = '';
-
-				// $('#myModal').modal('hide');
-
-				// 1、update mobileModalFormList
-				if (mobileList.length > 0) {
-					for (let j = 0; j < mobileList.length; j++) {
-						let mobileItem = mobileList[j];
-						let mobileModalFormItem = '';
-						mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
-						for (let i = 0; i < 8; i++) {
-							mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
-						}
-						mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-						mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
-							')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
-						mobileModalFormItem += '<h5><span href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
-							')">' + mobileItem.productTitle + '</span></h5>';
-						mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
-							'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-						mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-							',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
-
-						mobileModalFormList += mobileModalFormItem;
-					}
-				}
-
-				// 2、update laptopModalFormList
-				if (laptopList.length > 0) {
-					for (let j = 0; j < laptopList.length; j++) {
-						let mobileItem = laptopList[j];
-						let mobileModalFormItem = '';
-						mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
-						for (let i = 0; i < 8; i++) {
-							mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
-						}
-						mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-						mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
-							')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
-						mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
-							')">' + mobileItem.productTitle + '</a></h5>';
-						mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
-							'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-						mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-							',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
-
-						laptopModalFormList += mobileModalFormItem;
-					}
-				}
-
-				// 3、update tabletModalFormList
-				if (tabletList.length > 0) {
-					for (let j = 0; j < tabletList.length; j++) {
-						let mobileItem = tabletList[j];
-						let mobileModalFormItem = '';
-						mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
-						for (let i = 0; i < 8; i++) {
-							mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
-						}
-						mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-						mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
-							')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
-						mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
-							')">' + mobileItem.productTitle + '</a></h5>';
-						mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
-							'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-						mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-							',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
-
-						tabletModalFormList += mobileModalFormItem;
-					}
-				}
-
-				// 4、update tvModalFormList
-				if (tvList.length > 0) {
-					for (let j = 0; j < tvList.length; j++) {
-						let mobileItem = tvList[j];
-						let mobileModalFormItem = '';
-						mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
-						for (let i = 0; i < 8; i++) {
-							mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
-						}
-						mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-						mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
-							')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
-						mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
-							')">' + mobileItem.productTitle + '</a></h5>';
-						mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
-							'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-						mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-							',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
-
-						tvModalFormList += mobileModalFormItem;
-					}
-				}
-
-				// 5、update airModalFormList
-				if (airList.length > 0) {
-					for (let j = 0; j < airList.length; j++) {
-						let mobileItem = airList[j];
-						let mobileModalFormItem = '';
-						mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
-						for (let i = 0; i < 8; i++) {
-							mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
-						}
-						mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
-						mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
-							')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
-						mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
-							')">' + mobileItem.productTitle + '</a></h5>';
-						mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
-							'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
-						mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
-							',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
-
-						airModalFormList += mobileModalFormItem;
-					}
-				}
-
-				$('#mobile-modal').html(mobileModalFormList);
-				$('#laptop-modal').html(laptopModalFormList);
-				$('#tablet-modal').html(tabletModalFormList);
-				$('#tv-modal').html(tvModalFormList);
-				$('#air-modal').html(airModalFormList);
-
 			}
 
-			// 替换默认登录注册弹出框 -> 个人头像
-			async function imgOperation(userMsg) {
-				var userInfo = userMsg;
-				var headImage = userInfo.headImage;
-				if (headImage == null || headImage.length == 0) {
-					headImage = "http://osnwk5h1c.bkt.clouddn.com/image/store/default-head-image.jpeg";
+			// 默认不登录时均可浏览的信息
+
+			// --- 获取主分类数据，替换PRODUCTS里的选项 ---			
+			var categoryList = await getCategoryList();
+
+			var point = 1;
+
+			var formList1 = '';
+			var formList2 = '';
+			var formList3 = '';
+
+			for (let i = 0; i < categoryList.length; i++) {
+				const element = categoryList[i];
+
+				var secondCategoryList = await getSecondCategoryList(element.id);
+				if (point == 1) {
+					// formList1 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
+					formList1 += '<ul class="multi-column-dropdown"><h6>Mobile</h6>';
+					for (let j = 0; j < secondCategoryList.length; j++) {
+						let secondCategoryItem = secondCategoryList[j];
+						formList1 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
+							secondCategoryItem.name +
+							'</a></li>';
+					}
+					formList1 += '</ul>';
 				}
-				$('#default-icon').css("display", "none");
-				$('#headImage').show();
-				$('#headImage').attr("src", headImage);
-
-				// 替换弹出框内容 -> 个人信息展示
-
-				// 填充个人信息
-				$('#user-account').attr("value", userInfo.account);
-				$('#user-nickname').attr("value", userInfo.nickname);
-				$('#user-realName').attr("value", userInfo.realName);
-				$('#user-birthday').attr("value", userInfo.birthday);
-				$('#user-email').attr("value", userInfo.email);
-
-				$('#modal-content').hide();
-				$('#user-info-content').show();
+				if (point == 2) {
+					// formList2 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
+					formList2 += '<ul class="multi-column-dropdown"><h6>PC</h6>';
+					for (let j = 0; j < secondCategoryList.length; j++) {
+						let secondCategoryItem = secondCategoryList[j];
+						// formList2 += '<li><a href="javascript:;" onclick="' + getProductPage(secondCategoryItem.id); + '">' +
+						// 	secondCategoryItem.name +
+						// 	'</a></li>';
+						formList2 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
+							secondCategoryItem.name +
+							'</a></li>';
+					}
+					formList2 += '</ul>';
+				}
+				if (point == 3) {
+					// formList3 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
+					formList3 += '<ul class="multi-column-dropdown"><h6>Appliances</h6>';
+					for (let j = 0; j < secondCategoryList.length; j++) {
+						let secondCategoryItem = secondCategoryList[j];
+						formList3 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
+							secondCategoryItem.name +
+							'</a></li>';
+					}
+					formList3 += '</ul>';
+				}
+				++point;
 			}
+			$('#category-mobile').html(formList1);
+			$('#category-computer').html(formList2);
+			$('#category-electrical').html(formList3);
+
+			//  --- 主页各产品栏目 ---
+
+			// Modal 五个tab panel
+
+			var mobileModalFormList = '';
+			var laptopModalFormList = '';
+			var tabletModalFormList = '';
+			var tvModalFormList = '';
+			var airModalFormList = '';
+
+			let mobileList = '';
+			let laptopList = '';
+			let tabletList = '';
+			let tvList = '';
+			let airList = '';
+
+			// localStorage是否存在modal数据，如若存在，直接赋值；如若不存在，请求后台数据
+			let mobileListStr = getLocalStorage("mobileList");
+
+			if (mobileListStr != null) {
+				mobileList = JSON.parse(mobileListStr);
+			} else {
+				mobileList = await getProductListByLimit(1, 6);
+				inputToLocalStorage("mobileList", JSON.stringify(mobileList));
+			}
+
+			let laptopListStr = getLocalStorage("laptopList");
+			if (laptopListStr != null) {
+				laptopList = JSON.parse(laptopListStr);
+			} else {
+				laptopList = await getProductListByLimit(3, 6);
+				inputToLocalStorage("laptopList", JSON.stringify(laptopList));
+			}
+
+			let tabletListStr = getLocalStorage("tabletList");
+			if (tabletListStr != null) {
+				tabletList = JSON.parse(tabletListStr);
+			} else {
+				tabletList = await getProductListByLimit(5, 6);
+				inputToLocalStorage("tabletList", JSON.stringify(tabletList));
+			}
+
+			let tvListStr = getLocalStorage("tvList");
+			if (tvListStr != null) {
+				tvList = JSON.parse(tvListStr);
+			} else {
+				tvList = await getProductListByLimit(8, 6);
+				inputToLocalStorage("tvList", JSON.stringify(tvList));
+			}
+
+			let airListStr = getLocalStorage("airList");
+			if (airListStr != null) {
+				airList = JSON.parse(airListStr);
+			} else {
+				airList = await getProductListByLimit(9, 6);
+				inputToLocalStorage("airList", JSON.stringify(airList));
+			}
+
+			var props = '';
+
+			// 详情modal隐藏时执行清空操作
+			$('#myModal').on('hide.bs.modal', function () {
+				let productDetailForm = '';
+				$('#productMainPicture').html(productDetailForm);
+				$('#productDetailMessage').html(productDetailForm);
+			});
+
+
+			// 1、update mobileModalFormList
+			if (mobileList.length > 0) {
+				for (let j = 0; j < mobileList.length; j++) {
+					let mobileItem = mobileList[j];
+					let mobileModalFormItem = '';
+					mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
+					for (let i = 0; i < 8; i++) {
+						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
+					}
+					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
+					mobileModalFormItem += '<h5><span href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
+						')">' + mobileItem.productTitle + '</span></h5>';
+					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
+						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
+					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
+						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+
+					mobileModalFormList += mobileModalFormItem;
+				}
+			}
+
+			// 2、update laptopModalFormList
+			if (laptopList.length > 0) {
+				for (let j = 0; j < laptopList.length; j++) {
+					let mobileItem = laptopList[j];
+					let mobileModalFormItem = '';
+					mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
+					for (let i = 0; i < 8; i++) {
+						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
+					}
+					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
+					mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
+						')">' + mobileItem.productTitle + '</a></h5>';
+					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
+						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
+					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
+						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+
+					laptopModalFormList += mobileModalFormItem;
+				}
+			}
+
+			// 3、update tabletModalFormList
+			if (tabletList.length > 0) {
+				for (let j = 0; j < tabletList.length; j++) {
+					let mobileItem = tabletList[j];
+					let mobileModalFormItem = '';
+					mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
+					for (let i = 0; i < 8; i++) {
+						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
+					}
+					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
+					mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
+						')">' + mobileItem.productTitle + '</a></h5>';
+					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
+						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
+					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
+						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+
+					tabletModalFormList += mobileModalFormItem;
+				}
+			}
+
+			// 4、update tvModalFormList
+			if (tvList.length > 0) {
+				for (let j = 0; j < tvList.length; j++) {
+					let mobileItem = tvList[j];
+					let mobileModalFormItem = '';
+					mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
+					for (let i = 0; i < 8; i++) {
+						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
+					}
+					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
+					mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
+						')">' + mobileItem.productTitle + '</a></h5>';
+					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
+						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
+					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
+						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+
+					tvModalFormList += mobileModalFormItem;
+				}
+			}
+
+			// 5、update airModalFormList
+			if (airList.length > 0) {
+				for (let j = 0; j < airList.length; j++) {
+					let mobileItem = airList[j];
+					let mobileModalFormItem = '';
+					mobileModalFormItem += '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper">';
+					for (let i = 0; i < 8; i++) {
+						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
+					}
+					mobileModalFormItem += '<div class="w3_hs_bottom"><ul><li>';
+					mobileModalFormItem += '<a href="#" onclick="modalProductDetail(' + mobileItem.id + ',' + props +
+						')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
+					mobileModalFormItem += '<h5><a href="javascript:;" onclick="intoProductDetail(' + mobileItem.id +
+						')">' + mobileItem.productTitle + '</a></h5>';
+					mobileModalFormItem += '<div class="simpleCart_shelfItem"><p><span>￥' + mobileItem.originalPrice +
+						'</span><i class="item_price">￥' + mobileItem.listPrice + '</i></p>';
+					mobileModalFormItem += '<button type="submit" onclick="addCart(' + mobileItem.id +
+						',1,' + mobileItem.productImage + ',' + props + ')" class="w3ls-cart">Add to cart</button></form></div></div>';
+
+					airModalFormList += mobileModalFormItem;
+				}
+			}
+
+			$('#mobile-modal').html(mobileModalFormList);
+			$('#laptop-modal').html(laptopModalFormList);
+			$('#tablet-modal').html(tabletModalFormList);
+			$('#tv-modal').html(tvModalFormList);
+			$('#air-modal').html(airModalFormList);
+		}
+
+		// --- function ---
+
+		// 替换默认登录注册弹出框 -> 个人头像
+		async function imgOperation(userMsg) {
+			var userInfo = userMsg;
+			var headImage = userInfo.headImage;
+			if (headImage == null || headImage.length == 0) {
+				headImage = "http://osnwk5h1c.bkt.clouddn.com/image/store/default-head-image.jpeg";
+			}
+			$('#default-icon').css("display", "none");
+			$('#headImage').show();
+			$('#headImage').attr("src", headImage);
+
+			// 替换弹出框内容 -> 个人信息展示
+
+			// 填充个人信息
+			$('#user-account').attr("value", userInfo.account);
+			$('#user-nickname').attr("value", userInfo.nickname);
+			$('#user-realName').attr("value", userInfo.realName);
+			$('#user-birthday').attr("value", userInfo.birthday);
+			$('#user-email').attr("value", userInfo.email);
+
+			$('#modal-content').hide();
+			$('#user-info-content').show();
 		}
 
 		// 获取产品列表
@@ -617,7 +626,7 @@
 			}
 
 			// update product main picture
-			(mainPicture != null) ? mainPicture : "images/3.jpg"
+			(mainPicture != null) ? mainPicture: "images/3.jpg"
 			let productMainPictureForm = '<img src="' + mainPicture +
 				'" alt=" " class="img-responsive" />';
 			$('#productMainPicture').html(productMainPictureForm);
@@ -629,18 +638,22 @@
 			productDetailMessageForm += '<p>' + productDetail.product.detail + '</p>';
 
 			let attributeKeyList = productDetail.attributeKeyList;
-			for (let i = 0; i < attributeKeyList.length; i++) {
+
+			var point = 1;
+			for (let i = 0; i < attributeKeyList.length; i++, point++) {
 				const element = attributeKeyList[i];
 				var skuGroupForm = '';
 
 				skuGroupForm += '<h5>' + element.attributeName + '</h5>';
-				skuGroupForm += '<div id="skuGroup1" class="color-quality"><ul>';
+				skuGroupForm += '<div id="skuGroup' + point + '" class="color-quality"><ul>';
 
 				let skuValue = productDetail.list[i];
+
 				for (let j = 0; j < skuValue.length; j++) {
 					const element = skuValue[j];
 					skuGroupForm += '<li>';
-					skuGroupForm += '<input type="radio" value="' + element.id + '"> ' + element.value;
+					skuGroupForm += '<input type="radio" name="sku' + point + '" id="sku' + point + '-' + j + '" value="' + element.id +
+						'"> ' + element.value;
 					skuGroupForm += '</li>';
 				}
 
@@ -651,14 +664,15 @@
 			productDetailMessageForm += '<br/>';
 			productDetailMessageForm += '<div class="modal_body_right_cart simpleCart_shelfItem">';
 			productDetailMessageForm += '<p><span>￥' + productDetail.product.originalPrice +
-				'</span><i class="item_price">￥'+ productDetail.product.listPrice +'</i></p>';
+				'</span><i class="item_price">￥' + productDetail.product.listPrice + '</i></p>';
 			productDetailMessageForm += '<div class="modal_body_right_cart simpleCart_shelfItem">';
 			productDetailMessageForm += '<button type="submit" onclick="addCartContainSku(' + productDetail.product.id +
 				',1,' + mainPicture + ')" class="w3ls-cart">Add to cart</button></div>';
 
 			$('#productDetailMessage').html(productDetailMessageForm);
 
-			// $('#myModal').show();
+
+
 		}
 
 		// 进入产品详情页
@@ -673,8 +687,8 @@
 
 		// modal 详情页 添加购物车
 		async function addCartContainSku(productId, num, productPicture) {
-			
-		} 
+
+		}
 	</script>
 
 	<!-- navigation -->
