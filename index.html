@@ -297,6 +297,7 @@
 				<form action="#" method="post" class="last">
 					<input type="hidden" name="cmd" value="_cart" />
 					<input type="hidden" name="display" value="1" />
+					
 					<button class="w3view-cart" type="submit" name="submit" value="">
 						<i onclick="searchCart()" class="fa fa-cart-arrow-down" aria-hidden="true"></i>
 					</button>
@@ -694,13 +695,10 @@
 			cartItemListForm += '<form><button type="button" class="sbmincart-closer">×</button><ul>';
 
 			var cartItemList = await getCartList();
-			// let cartListStr = getLocalStorage("cartList") || '';
-			// if (cartListStr.length > 0) {
-			// 	cartItemList = JSON.parse(cartListStr);
-			// } else {
-			// 	cartItemList = await getCartList();
-			// 	inputToLocalStorage("cartList", JSON.stringify(cartItemList));
-			// }
+
+			if (cartItemList.length > 0) {
+				$("p.sbmincart-empty-text").html('');
+			}
 
 			for (let i = 0; i < cartItemList.length; i++) {
 				const element = cartItemList[i];
@@ -848,6 +846,7 @@
 			alert("下订单");
 		}
 
+		// 查找sku组合价格
 		async function searchSku() {
 			if ($("#skuGroup1").length > 0) {
 				var sku1Value = $("input[name='sku1']:checked").val() || '';
@@ -868,11 +867,13 @@
 			}
 		}
 
+		// 查询单产品详情
 		async function detail(productId, props) {
 			var productDetail = await getProductDetail(productId, props);
 			return productDetail;
 		}
 
+		// 查询完sku组合价格，去除原价，更新产品价格
 		async function updateModalProductPrice(productPrice) {
 			$("#originalPrice").hide();
 			$("#listPrice").html('￥' + productPrice);
@@ -1144,7 +1145,7 @@
 
 	<!-- cart content -->
 	<div id="w3lssbmincart">
-		
+
 	</div>
 	<!-- //cart content -->
 

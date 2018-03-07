@@ -79,6 +79,41 @@ async function getSecondCategoryList(categoryId) {
  * 产品模块
  */
 
+// 获取产品分页列表
+async function getProductPageApi(brandId, numOrder, shopId, secondCategoryId) {
+    var token = getLocalStorage('token'),
+        data = [];
+    await $.ajax({
+        url: `${api}/product/page?brandId=` + brandId + '&numOrder=' + numOrder + '&shopId=' + shopId + '&secondCategoryId=' + secondCategoryId,
+        method: 'GET',
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        contentType: "application/json",
+        dataType: "json",
+        success: function (res) {
+            data = res.content;
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+            }
+        }
+    });
+
+    return data;
+}
+
 // 获取产品分页列表 -> 次分类id
 async function getProductList(secondCategoryId) {
     var token = getLocalStorage('token'),
@@ -351,7 +386,6 @@ async function deleteInBatch(productId, propertiesGroup) {
             "propertiesGroup": propertiesGroup
         }),
         success: function (res) {
-            console.log(res);
             alert("Succeeded");
         },
         error: function (res) {
