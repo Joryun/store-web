@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Products</title>
+  <!-- for-mobile-apps -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="" />
+  <script type="application/x-javascript">
+    addEventListener("load", function () {
+      setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+      window.scrollTo(0, 1);
+    }
+  </script>
+  <!-- //for-mobile-apps -->
+  <!-- Custom Theme files -->
+  <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="css/fasthover.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- //Custom Theme files -->
+  <!-- font-awesome icons -->
+  <link href="css/font-awesome.css" rel="stylesheet">
+  <!-- //font-awesome icons -->
+  <!-- js -->
+  <script src="js/jquery.min.js"></script>
+  <!-- //js -->
+  <!-- web fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Glegoo:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+    rel='stylesheet' type='text/css'>
+  <!-- //web fonts -->
+  <!-- for bootstrap working -->
+  <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+  <!-- //for bootstrap working -->
+  <!-- start-smooth-scrolling -->
+  <script type="text/javascript">
+    jQuery(document).ready(function ($) {
+      $(".scroll").click(function (event) {
+        event.preventDefault();
+        $('html,body').animate({
+          scrollTop: $(this.hash).offset().top
+        }, 1000);
+      });
+    });
+  </script>
+  <!-- //end-smooth-scrolling -->
+</head>
+
+<body>
+
+  <script src="js/global.js"></script>
+  <script src="js/api.js"></script>
+
+  <!-- 进入主页，弹出框是否弹出控制 -->
+
+  <!-- header modal -->
+
+  <!--  登录弹出 start -->
+  <div class="modal fade" id="myModal88" tabindex="-1" role="dialog" aria-labelledby="myModal88" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <!-- 登录，注册弹出框面板 -->
+      <div id="modal-content" class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;</button>
+          <h4 class="modal-title" id="myModalLabel">Don't Wait, Login now!</h4>
+        </div>
+        <div class="modal-body modal-body-sub">
+          <div class="row">
+            <div class="col-md-8 modal_body_left modal_body_left1" style="border-right: 1px dotted #C2C2C2;padding-right:3em;">
+              <div class="sap_tabs">
+                <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+                  <ul>
+                    <li class="resp-tab-item" aria-controls="tab_item-0">
+                      <span>Sign in</span>
+                    </li>
+                    <li class="resp-tab-item" aria-controls="tab_item-1">
+                      <span>Sign up</span>
+                    </li>
+                  </ul>
+                  <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
+                    <div class="facts">
+                      <div class="register">
+                        <input id="sign-in-phone" name="Phone" placeholder="Mobile Phone" type="text" maxlength="11" required="">
+                        <input id="sign-in-password" name="Password" placeholder="Password" type="password" required="">
+                        <div class="sign-up">
+                          <input type="submit" onclick="userLogin();" value="Sign in" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+                    <div class="facts">
+                      <div class="register">
+                        <form action="#" method="post">
+                          <input type="text" placeholder="Mobile Phone" name="Phone" id="phone" required="" />
+                          <input type="text" placeholder="Verification Code" name="code" id="code" style="margin-top: 14px;width: 60%" />
+                          <div class="shore-input-span" style="width:40%;display:initial;">
+                            <span class="code code-get" id="getCode" onclick="getCode();">获取验证码</span>
+                            <span class="code code-num" id="getNum" style="display: none">已发送验证码</span>
+                          </div>
+
+                          <div class="sign-up">
+                            <input type="submit" value="Create Account" />
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
+              <script type="text/javascript">
+                $(document).ready(function () {
+                  $('#horizontalTab').easyResponsiveTabs({
+                    type: 'default', //Types: default, vertical, accordion           
+                    width: 'auto', //auto or any width like 600px
+                    fit: true // 100% fit in a container
+                  });
+                });
+              </script>
+              <div id="OR" class="hidden-xs">OR</div>
+            </div>
+            <div class="col-md-4 modal_body_right modal_body_right1">
+              <div class="row text-center sign-with">
+                <div class="col-md-12">
+                  <h3 class="other-nw">Sign in with</h3>
+                </div>
+                <div class="col-md-12">
+                  <ul class="social">
+                    <li class="social_facebook">
+                      <a href="#" class="entypo-facebook"></a>
+                    </li>
+                    <li class="social_dribbble">
+                      <a href="#" class="entypo-dribbble"></a>
+                    </li>
+                    <li class="social_twitter">
+                      <a href="#" class="entypo-twitter"></a>
+                    </li>
+                    <li class="social_behance">
+                      <a href="#" class="entypo-behance"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 个人信息面板 -->
+      <div id="user-info-content" class="modal-content" style="display:none">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;</button>
+          <h4 class="modal-title" id="myModalLabel1">USER INFO</h4>
+        </div>
+        <div class="modal-body modal-body-sub">
+          <div class="row">
+            <div class="col-md-8 modal_body_left modal_body_left1" style="border-right: 1px dotted #C2C2C2;padding-right:3em;">
+              <div class="sap_tabs">
+                <div id="horizontalTab1" style="display: block; width: 100%; margin: 0px;">
+                  <ul>
+                    <li class="resp-tab-item" aria-controls="tab_item-2">
+                      <span>Base</span>
+                    </li>
+                    <li class="resp-tab-item" aria-controls="tab_item-3">
+                      <span>Bind</span>
+                    </li>
+                    <li class="resp-tab-item" aria-controls="tab_item-4">
+                      <span>Account</span>
+                    </li>
+                  </ul>
+                  <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
+                    <div class="facts">
+                      <div class="register">
+                        账号：
+                        <input id="user-account" name="account" type="text" value="" readonly="readonly" /> 用户名：
+                        <input id="user-nickname" name="nickname" type="text" value="" /> 真名：
+                        <input id="user-realName" name="realName" type="text" value="" /> 生日：
+                        <input id="user-birthday" name="birthday" type="text" value="" /> 邮箱：
+                        <input id="user-email" name="email" type="email" value="" />
+
+                        <div class="sign-up">
+                          <input type="submit" onclick="updateUserInfo();" value="Update" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-3">
+                    <div class="facts">
+                      <div class="register">
+
+                        <input type="text" placeholder="Mobile Phone" name="bind-phone" id="bind-phone" required="" />
+                        <input type="text" placeholder="Verification Code" name="bind-code" id="bind-code" style="margin-top: 14px;width: 60%" />
+                        <div class="shore-input-span" style="width:40%;display:initial;">
+                          <span class="code code-get" onclick="getCode();">获取验证码</span>
+                          <span class="code code-num" style="display: none">已发送验证码</span>
+                        </div>
+
+                        <div class="sign-up">
+                          <input type="submit" value="Bind" />
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-4">
+                    <div class="facts">
+                      <div class="register">
+                        <input id="set-password-account" name="set-password-account" placeholder="Account" type="text" required="">
+                        <input id="set-password" name="set-password" placeholder="Password" type="password" required="">
+                        <div class="sign-up">
+                          <input type="submit" onclick="setPassword();" value="Set" />
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <script type="text/javascript">
+                $(document).ready(function () {
+                  $('#horizontalTab1').easyResponsiveTabs({
+                    type: 'default', //Types: default, vertical, accordion           
+                    width: 'auto', //auto or any width like 600px
+                    fit: true // 100% fit in a container
+                  });
+                });
+              </script>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--  登录弹出 end -->
+
+  <!-- header modal -->
+  <!-- header -->
+  <div class="header" id="home1">
+    <div class="container">
+      <div class="w3l_login">
+        <a href="#" data-toggle="modal" data-target="#myModal88">
+          <span id="default-icon" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+          <img id="headImage" src="http://osnwk5h1c.bkt.clouddn.com/image/store/default-head-image.jpeg" style="width:50px;height:50px;display:none;"
+          />
+        </a>
+      </div>
+      <div class="w3l_logo">
+        <h1>
+          <a href="index.html">Yo Store
+            <span>Your stores. Your place.</span>
+          </a>
+        </h1>
+      </div>
+      <div class="search">
+        <input class="search_box" type="checkbox" id="search_box">
+        <label class="icon-search" for="search_box">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </label>
+        <div class="search_form">
+          <form action="#" method="post">
+            <input type="text" name="Search" placeholder="Search...">
+            <input type="submit" value="Send">
+          </form>
+        </div>
+      </div>
+      <div class="cart cart box_1">
+        <form action="#" method="post" class="last">
+          <input type="hidden" name="cmd" value="_cart" />
+          <input type="hidden" name="display" value="1" />
+
+          <!-- <button class="w3view-cart" type="submit" name="submit" value="">
+						<i onclick="searchCart()" class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+					</button> -->
+
+          <button onclick="searchCart()" class="w3view-cart">
+            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- //header -->
+
+  <script>
+    $(document).ready(function () {
+      pre();
+    });
+    async function pre() {
+      // 1、判断LocalStorage 2、判断token是否有效或过期
+      var token = getLocalStorage('token') || '';
+      if (token.length == 0) {
+        toLogin();
+        return
+      }
+      if (token.length > 0) {
+        // 获取用户信息
+        var userInfo = await getUserInfo();
+
+        if (isEmptyObject(userInfo)) {
+          await toLogin();
+          return;
+        }
+
+        // --- token存在且有效 ---
+
+        $('#myModal88').modal('hide');
+        // 替换图标
+        imgOperation(userInfo);
+
+        // --- 获取主分类数据，替换PRODUCTS里的选项 ---			
+        var categoryList = await getCategoryList();
+
+        var point = 1;
+
+        var formList1 = '';
+        var formList2 = '';
+        var formList3 = '';
+
+        for (let i = 0; i < categoryList.length; i++) {
+          const element = categoryList[i];
+
+          var secondCategoryList = await getSecondCategoryList(element.id);
+          if (point == 1) {
+            formList1 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
+            for (let j = 0; j < secondCategoryList.length; j++) {
+              let secondCategoryItem = secondCategoryList[j];
+              formList1 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
+                secondCategoryItem.name +
+                '</a></li>';
+            }
+            formList1 += '</ul>';
+          }
+          if (point == 2) {
+            formList2 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
+            for (let j = 0; j < secondCategoryList.length; j++) {
+              let secondCategoryItem = secondCategoryList[j];
+              // formList2 += '<li><a href="javascript:;" onclick="' + getProductPage(secondCategoryItem.id); + '">' +
+              // 	secondCategoryItem.name +
+              // 	'</a></li>';
+              formList2 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
+                secondCategoryItem.name +
+                '</a></li>';
+            }
+            formList2 += '</ul>';
+          }
+          if (point == 3) {
+            formList3 += '<ul class="multi-column-dropdown"><h6>' + element.name + '</h6>';
+            for (let j = 0; j < secondCategoryList.length; j++) {
+              let secondCategoryItem = secondCategoryList[j];
+              formList3 += '<li><a href="javascript:;" onclick="getProductPage(' + secondCategoryItem.id + ');">' +
+                secondCategoryItem.name +
+                '</a></li>';
+            }
+            formList3 += '</ul>';
+          }
+          ++point;
+        }
+        $('#category-mobile').html(formList1);
+        $('#category-computer').html(formList2);
+        $('#category-electrical').html(formList3);
+      }
+
+      // 替换默认登录注册弹出框 -> 个人头像
+      async function imgOperation(userMsg) {
+        var userInfo = userMsg;
+        var headImage = userInfo.headImage;
+        if (headImage == null || headImage.length == 0) {
+          headImage = "http://osnwk5h1c.bkt.clouddn.com/image/store/default-head-image.jpeg";
+        }
+        $('#default-icon').css("display", "none");
+        $('#headImage').show();
+        $('#headImage').attr("src", headImage);
+
+        // 替换弹出框内容 -> 个人信息展示
+
+        // 填充个人信息
+        $('#user-account').attr("value", userInfo.account);
+        $('#user-nickname').attr("value", userInfo.nickname);
+        $('#user-realName').attr("value", userInfo.realName);
+        $('#user-birthday').attr("value", userInfo.birthday);
+        $('#user-email').attr("value", userInfo.email);
+
+        $('#modal-content').hide();
+        $('#user-info-content').show();
+      }
+
+      // 获取产品列表
+      let secondCategoryId = '';
+      var requestUrl = location.search || '';
+
+      if (requestUrl.length > 0 && requestUrl.indexOf("?") != -1) {
+        let str = requestUrl.split("=");
+        if (str.length > 0) {
+          secondCategoryId = str[1];
+        }
+      }
+      fillProductList(secondCategoryId);
+
+      // 详情modal隐藏时执行清空操作
+      $('#myModal').on('hide.bs.modal', function () {
+        let productDetailForm = '';
+        $('#productMainPicture').html(productDetailForm);
+        $('#productDetailMessage').html(productDetailForm);
+      });
+    }
+
+    // --- funciton ---
+
+    // 获取产品列表
+    async function getProductPage(secondCategoryItemId) {
+      window.location.href = 'products.html?secondCategoryItemId=' + secondCategoryItemId;
+    }
+
+    // 查询购物车
+    async function searchCart() {
+      var cartItemListForm = '';
+
+      var totalFee = 0;
+
+      cartItemListForm += '<form><button type="button" class="sbmincart-closer">×</button><ul>';
+
+      var cartItemList = await getCartList();
+
+      for (let i = 0; i < cartItemList.length; i++) {
+        const element = cartItemList[i];
+
+        totalFee += element.productTotalFee;
+
+        let cartItemForm = '';
+        cartItemForm += '<li class="sbmincart-item"><div class="sbmincart-details-name">';
+        cartItemForm += '<span class="sbmincart-name">' + element.productName +
+          '</span><ul class="sbmincart-attributes"> </ul></div>';
+        cartItemForm += '<div class="sbmincart-details-quantity">';
+        cartItemForm +=
+          '<input class="sbmincart-quantity" data-sbmincart-idx="0" name="quantity_1" type="text" pattern="[0-9]*" value="' +
+          element.productNum + '" autocomplete="off"> </div>';
+        cartItemForm +=
+          '<div class="sbmincart-details-remove"><button onclick="removeCartItem(\'' + element.productId + '\',\'' +
+          element
+          .skuProperties + '\')" type="button" class="sbmincart-remove">×</button></div>';
+        cartItemForm += '<div class="sbmincart-details-price"><span class="sbmincart-price">￥' + element.productTotalFee +
+          '</span></div></li>';
+
+        cartItemListForm += cartItemForm;
+      }
+
+      cartItemListForm += '</ul>'
+      cartItemListForm += '<div class="sbmincart-footer">'
+      cartItemListForm += '<div class="sbmincart-subtotal"> Subtotal: ￥' + totalFee + ' </div>';
+      cartItemListForm += '<button onclick="intoOrder()" class="sbmincart-submit" type="submit">To Pay</button>';
+      cartItemListForm += '</div></form>';
+
+      $('#w3lssbmincart').html(cartItemListForm);
+
+      if (cartItemList.length > 0) {
+        $("p.sbmincart-empty-text").html('');
+      }
+    }
+
+    // 获取产品详情 modal
+    async function modalProductDetail(productId) {
+      var productDetail = await getProductDetail(productId, '');
+      let mainPicture = '';
+
+      let productPictureList = productDetail.productPictureList;
+      for (let i = 0; i < productPictureList.length; i++) {
+        const element = productPictureList[i];
+        if (element.pictureType == "MAIN") {
+          mainPicture = element.productImage;
+        }
+
+      }
+
+      // update product main picture
+      (mainPicture != null) ? mainPicture: "images/3.jpg"
+      let productMainPictureForm = '<img src="' + mainPicture +
+        '" alt=" " class="img-responsive" />';
+      $('#productMainPicture').html(productMainPictureForm);
+
+      //update product detail message
+      var productDetailMessageForm = '';
+      // productDetailMessageForm += '<h4>' + productDetail.product.productTitle + '</h4>';
+      productDetailMessageForm += '<span>' + productDetail.product.productTitle + '</span>';
+      productDetailMessageForm += '<p>' + productDetail.product.detail + '</p>';
+
+      let attributeKeyList = productDetail.attributeKeyList;
+
+      var point = 1;
+      for (let i = 0; i < attributeKeyList.length; i++, point++) {
+        const element = attributeKeyList[i];
+        var skuGroupForm = '';
+
+        skuGroupForm += '<h5>' + element.attributeName + '</h5>';
+        skuGroupForm += '<div id="skuGroup' + point + '" class="color-quality"><ul>';
+
+        let skuValue = productDetail.list[i];
+
+        for (let j = 0; j < skuValue.length; j++) {
+          const valueElement = skuValue[j];
+          skuGroupForm += '<li>';
+          skuGroupForm += '<input type="radio" onclick="searchSku()" name="sku' + point + '" id="sku' + point + '-' + j +
+            '" value="' +
+            valueElement.id +
+            '"> ' + valueElement.value;
+          skuGroupForm += '</li>';
+        }
+
+        skuGroupForm += '</ul></div>';
+
+        productDetailMessageForm += skuGroupForm;
+      }
+      productDetailMessageForm += '<input id="productId" type="hidden" value="' + productDetail.product.id + '">';
+      productDetailMessageForm += '<br/>';
+      productDetailMessageForm += '<div class="modal_body_right_cart simpleCart_shelfItem">';
+      productDetailMessageForm += '<p><span id="originalPrice">￥' + productDetail.product.originalPrice +
+        '</span><i id="listPrice" class="item_price">￥' + productDetail.product.listPrice + '</i></p>';
+      productDetailMessageForm += '<div class="modal_body_right_cart simpleCart_shelfItem">';
+      productDetailMessageForm += '<button type="submit" onclick="addCartContainSku(\'' + productDetail.product.id +
+        '\',1,\'' + mainPicture + '\')" class="w3ls-cart">Add to cart</button> </div>';
+
+      $('#productDetailMessage').html(productDetailMessageForm);
+
+
+    }
+
+    // 进入产品详情页
+    async function intoProductDetail(productId) {
+      window.location.href = 'single.html?productId=' + productId;
+    }
+
+    // 添加购物车
+    async function addCart(productId, num, productPicture) {
+      addOne(productPicture, productId, num, "");
+    }
+
+    // modal 详情页 添加购物车
+    async function addCartContainSku(productId, num, productPicture) {
+      if ($("#skuGroup1").length > 0) {
+        var sku1Value = $("input[name='sku1']:checked").val() || '';
+        // var productId = $("#productId").val() || 0;
+        if (sku1Value.length <= 0) {
+          addCart(productId, num, productPicture);
+          window.location.href = 'products.html';
+        }
+        if ($("#skuGroup2").length > 0) {
+          var sku2Value = $("input[name='sku2']:checked").val() || '';
+          if (sku2Value != null && sku2Value.length > 0) {
+            let props = sku1Value + ',' + sku2Value;
+            addOne(productPicture, productId, num, props);
+            window.location.href = 'products.html';
+          }
+        } else {
+          addCart(productId, num, productPicture);
+          window.location.href = 'products.html';
+        }
+      } else {
+        addOne(productPicture, productId, num, "");
+        window.location.href = 'products.html';
+      }
+    }
+
+    // 删除购物车单个产品
+    async function removeCartItem(productId, props) {
+      if (confirm("确认要删除吗？") == true) {
+        deleteInBatch(productId, props);
+      }
+    }
+
+    // 填充产品列表
+    async function fillProductList(secondCategoryId) {
+      var newProductPageForm = '';
+      var productPageForm = $("#productData").html();
+      newProductPageForm += productPageForm;
+
+      var productData = '';
+      var productDataStr = getLocalStorage("productData") || '';
+      if (productDataStr != null && productDataStr.length > 0) {
+        productData = JSON.parse(productDataStr);
+      } else {
+        productData = await getProductPageApi('', '', '', secondCategoryId);
+        inputToLocalStorage("productData", JSON.stringify(productData));
+      }
+
+      var productDataForm = '';
+
+      for (let i = 0; i < productData.length; i++) {
+        const element = productData[i];
+
+        let productItemForm = '';
+
+        if ((i + 1) % 3 == 1) {
+          productItemForm += '<div id="productPage" class="w3ls_mobiles_grid_right_grid3">';
+        }
+
+        productItemForm += '<div class="col-md-4 agileinfo_new_products_grid agileinfo_new_products_grid_mobiles">';
+        productItemForm +=
+          '<div class="agile_ecommerce_tab_left mobiles_grid"><div class="hs-wrapper hs-wrapper2">';
+        for (let i = 0; i < 5; i++) {
+          productItemForm += '<img src="' + element.productImage + '" alt=" " class="img-responsive" />';
+        }
+        productItemForm += '<div class="w3_hs_bottom w3_hs_bottom_sub1"><ul><li>';
+        productItemForm += '<a href="#" onclick="modalProductDetail(' + element.id +
+          ')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div>';
+        productItemForm += '<h5><span href="javascript:;" onclick="intoProductDetail(' + element.id +
+          ')">' + element.productTitle + '</span></h5>';
+        productItemForm += '<div class="simpleCart_shelfItem"><p><span>￥' + element.originalPrice +
+          '</span><i class="item_price">￥' + element.listPrice + '</i></p>';
+        productItemForm += '<button onclick="addCart(\'' + element.id +
+          '\',\'1\',\'' + element.productImage + '\')" class="w3ls-cart">Add to cart</button></form></div></div></div>';
+
+        if ((i + 1) % 3 == 0) {
+          productItemForm += '<div class="clearfix"> </div></div>';
+        }
+
+        productDataForm += productItemForm;
+      }
+
+      newProductPageForm += productDataForm;
+
+      $("#productData").html(newProductPageForm);
+    }
+
+    // 下订单
+    async function intoOrder() {
+      alert("下订单");
+    }
+
+    // 查找sku组合价格
+    async function searchSku() {
+      if ($("#skuGroup1").length > 0) {
+        var sku1Value = $("input[name='sku1']:checked").val() || '';
+        var productId = $("#productId").val() || 0;
+        if ($("#skuGroup2").length > 0) {
+          var sku2Value = $("input[name='sku2']:checked").val() || '';
+          if (sku2Value != null && sku2Value.length > 0) {
+            let props = sku1Value + ',' + sku2Value;
+            var productDetail = await detail(productId, props);
+            // 去除原价，更新产品价格
+            updateModalProductPrice(productDetail.productWebDetailList.productPrice);
+          }
+        } else {
+          var productDetail = await detail(productId, sku1Value);
+          // 去除原价，更新产品价格
+          updateModalProductPrice(productDetail.productWebDetailList.productPrice);
+        }
+      }
+    }
+
+    // 查询单产品详情
+    async function detail(productId, props) {
+      var productDetail = await getProductDetail(productId, props);
+      return productDetail;
+    }
+
+    // 查询完sku组合价格，去除原价，更新产品价格
+    async function updateModalProductPrice(productPrice) {
+      $("#originalPrice").hide();
+      $("#listPrice").html('￥' + productPrice);
+    }
+  </script>
+
+  <!-- navigation -->
+  <div class="navigation">
+    <div class="container">
+      <nav class="navbar navbar-default">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header nav_2">
+          <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="index.html" class="act">Home</a>
+            </li>
+
+            <!-- Mega Menu -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Products
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu multi-column columns-3">
+                <div class="row">
+                  <div id="category-mobile" class="col-sm-3">
+
+                  </div>
+
+                  <div id="category-computer" class="col-sm-3">
+
+                  </div>
+
+                  <div id="category-electrical" class="col-sm-2">
+
+                  </div>
+
+                  <div class="col-sm-4">
+                    <div class="w3ls_products_pos">
+                      <h4>入驻店铺
+                        <i>JOIN</i>
+                      </h4>
+                      <a href="#">
+                        <img src="http://osnwk5h1c.bkt.clouddn.com/image/store/new-shop.png" alt=" " class="img-responsive" />
+                      </a>
+                    </div>
+
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </ul>
+            </li>
+            <li class="w3pages">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Orders
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="orderList.html">Order List</a>
+                </li>
+                <li>
+                  <a href="orderRecord.html">History</a>
+                </li>
+              </ul>
+            </li>
+            <!-- <li class="w3pages">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="icons.html">Web Icons</a>
+                </li>
+                <li>
+                  <a href="codes.html">Short Codes</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="mail.html">Mail Us</a>
+            </li> -->
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+  <!-- //navigation -->
+
+  <!-- banner -->
+  <div class="banner banner1">
+    <div class="container">
+      <h2>Great Offers on
+        <span>Mobiles</span> Flat
+        <i>35% Discount</i>
+      </h2>
+    </div>
+  </div>
+  <!-- breadcrumbs -->
+  <div class="breadcrumb_dress">
+    <div class="container">
+      <ul>
+        <li>
+          <a href="index.html">
+            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a>
+          <i>/</i>
+        </li>
+        <li>Order List</li>
+      </ul>
+    </div>
+  </div>
+  <!-- //breadcrumbs -->
+  <!-- mobiles -->
+  <div class="mobiles">
+    <div class="container">
+
+      <h3 class="agileits-title">Order List</h3>
+
+      <div class="col-md-6" style="width:100%;">
+        <table class="table table-bordered">
+
+          <thead>
+            <tr>
+              <th>图片</th>
+              <th>产品名</th>
+              <th>产品属性</th>
+              <th>单价</th>
+              <th>数量</th>
+              <th>小计</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>
+                <span>test</span>
+              </td>
+              <td>
+                <code>.badge-primary</code>
+              </td>
+              <td>
+                <span>test</span>
+              </td>
+              <td>
+                <span>test</span>
+              </td>
+              <td>
+                <span class="badge badge-primary">1</span>
+              </td>
+              <td>
+                <span>test</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <span>test</span>
+              </td>
+              <td>
+                <code>.badge-primary</code>
+              </td>
+              <td>
+                <span>test</span>
+              </td>
+              <td>
+                <span>test</span>
+              </td>
+              <td>
+                <span class="badge badge-primary">1</span>
+              </td>
+              <td>
+                <span>test</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="sbmincart-price">Total：<b>￥500</b></span>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <div class="sign-up">
+          <input type="submit" value="Submit" />
+          <input type="submit" value="Cancel" />
+        </div>
+
+
+        <!-- <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+        <div class="facts">
+          <div class="register">
+            <form>
+              <div class="sign-up">
+                <input type="submit" value="Create Account" />
+                <input type="submit" value="Create Account" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div> -->
+
+        <!-- <div class="sign-up">
+        <input type="submit" value="Cancel" />
+        <input type="submit" value="Pay" />
+      </div> -->
+
+        <!-- <button onclick="" class="w3ls-cart">Cancel</button>
+      <button onclick="" class="w3ls-cart">Pay</button> -->
+
+      </div>
+    </div>
+
+    <!-- footer -->
+
+    <!-- //footer -->
+
+    <script type="text/javascript" src="js/jquery.flexisel.js"></script>
+    <!-- cart-js -->
+    <script src="js/minicart.js"></script>
+    <script>
+      w3ls.render();
+
+      w3ls.cart.on('w3sb_checkout', function (evt) {
+        var items, len, i;
+
+        if (this.subtotal() > 0) {
+          items = this.items();
+
+          for (i = 0, len = items.length; i < len; i++) {}
+        }
+      });
+    </script>
+    <!-- //cart-js -->
+
+    <!-- cart content -->
+    <div id="w3lssbmincart">
+
+    </div>
+    <!-- //cart content -->
+</body>
+
+</html>
