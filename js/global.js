@@ -2,13 +2,13 @@
 const api = 'http://localhost:9066/api'
 
 // 存进LocalStorage
-function inputToLocalStorage(key, value) {
-  localStorage.setItem(key, value);
+async function inputToLocalStorage(key, value) {
+  await localStorage.setItem(key, value);
 }
 
 // 取出LocalStorage数据
 function getLocalStorage(key) {
-  var message = localStorage.getItem(key);
+  var message = localStorage.getItem(key) || '';
   return message;
 }
 

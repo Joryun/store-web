@@ -21,6 +21,9 @@ async function getCategoryList() {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 401) {
                 console.log('无权限');
@@ -55,6 +58,9 @@ async function getSecondCategoryList(categoryId) {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 401) {
                 console.log('无权限');
@@ -91,6 +97,9 @@ async function getProductList(secondCategoryId) {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 401) {
                 console.log('无权限');
@@ -123,6 +132,9 @@ async function getProductListByLimit(secondCategoryId, num) {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 401) {
                 console.log('无权限');
@@ -155,6 +167,9 @@ async function getProductDetail(productId, props) {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 401) {
                 console.log('无权限');
@@ -187,6 +202,9 @@ async function getHotProduct(num) {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 401) {
                 console.log('无权限');
@@ -219,6 +237,9 @@ async function getNewProduct(num) {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 401) {
                 console.log('无权限');
@@ -255,6 +276,9 @@ async function getCartList() {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 401) {
                 console.log('无权限');
@@ -267,6 +291,86 @@ async function getCartList() {
     });
 
     return data;
+}
+
+// 添加单产品进购物车
+async function addOne(path, productId, productNum, skuProperties) {
+    var token = getLocalStorage('token');
+    // data = [];
+    await $.ajax({
+        url: `${api}/cart`,
+        type: 'POST',
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        data: JSON.stringify({
+            "path": path,
+            "productId": productId,
+            "productNum": productNum,
+            "skuProperties": skuProperties
+        }),
+
+        success: function (res) {
+            alert("Succeeded");
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+                alert("Failed");
+            }
+        }
+    });
+    // return data;
+}
+
+// 删除购物车产品
+async function deleteInBatch(productId, propertiesGroup) {
+    var token = getLocalStorage('token');
+    await $.ajax({
+        url: `${api}/cart/batch/delete`,
+        type: 'DELETE',
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        data: JSON.stringify({
+            "productId": productId,
+            "propertiesGroup": propertiesGroup
+        }),
+        success: function (res) {
+            console.log(res);
+            alert("Succeeded");
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+                alert("Failed");
+            }
+        }
+    });
 }
 
 /**
@@ -305,6 +409,9 @@ function userLogin() {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 500) {
                 console.log('失败了哦！');
@@ -331,6 +438,9 @@ async function getUserInfo() {
         error: function (res) {
             if (res.status === 400) {
                 console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
             }
             if (res.status === 401) {
                 console.log('无权限');

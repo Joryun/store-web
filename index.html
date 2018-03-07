@@ -407,41 +407,41 @@
 			let airList = '';
 
 			// localStorage是否存在modal数据，如若存在，直接赋值；如若不存在，请求后台数据
-			let mobileListStr = getLocalStorage("mobileList");
+			let mobileListStr = getLocalStorage("mobileList") || '';
 
-			if (mobileListStr != null) {
+			if (mobileListStr != null && mobileListStr.length > 0) {
 				mobileList = JSON.parse(mobileListStr);
 			} else {
 				mobileList = await getProductListByLimit(1, 6);
 				inputToLocalStorage("mobileList", JSON.stringify(mobileList));
 			}
 
-			let laptopListStr = getLocalStorage("laptopList");
-			if (laptopListStr != null) {
+			let laptopListStr = getLocalStorage("laptopList") || '';
+			if (laptopListStr != null && laptopListStr.length > 0) {
 				laptopList = JSON.parse(laptopListStr);
 			} else {
 				laptopList = await getProductListByLimit(3, 6);
 				inputToLocalStorage("laptopList", JSON.stringify(laptopList));
 			}
 
-			let tabletListStr = getLocalStorage("tabletList");
-			if (tabletListStr != null) {
+			let tabletListStr = getLocalStorage("tabletList") || '';
+			if (tabletListStr != null && tabletListStr.length > 0) {
 				tabletList = JSON.parse(tabletListStr);
 			} else {
 				tabletList = await getProductListByLimit(5, 6);
 				inputToLocalStorage("tabletList", JSON.stringify(tabletList));
 			}
 
-			let tvListStr = getLocalStorage("tvList");
-			if (tvListStr != null) {
+			let tvListStr = getLocalStorage("tvList") || '';
+			if (tvListStr != null && tvListStr.length > 0) {
 				tvList = JSON.parse(tvListStr);
 			} else {
 				tvList = await getProductListByLimit(8, 6);
 				inputToLocalStorage("tvList", JSON.stringify(tvList));
 			}
 
-			let airListStr = getLocalStorage("airList");
-			if (airListStr != null) {
+			let airListStr = getLocalStorage("airList") || '';
+			if (airListStr != null && airListStr.length > 0) {
 				airList = JSON.parse(airListStr);
 			} else {
 				airList = await getProductListByLimit(9, 6);
@@ -585,8 +585,8 @@
 			let hotProductList = '';
 			let hotProductForm = '';
 
-			let hotProductListStr = getLocalStorage("hotProductList");
-			if (hotProductListStr != null) {
+			let hotProductListStr = getLocalStorage("hotProductList") || '';
+			if (hotProductListStr != null && hotProductListStr.length > 0) {
 				hotProductList = JSON.parse(hotProductListStr);
 			} else {
 				hotProductList = await getHotProduct(4);
@@ -597,7 +597,8 @@
 					let mobileItem = hotProductList[j];
 					let mobileModalFormItem = '';
 					mobileModalFormItem += '<div class="col-md-3 agileinfo_new_products_grid">';
-					mobileModalFormItem += '<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1"><div class="hs-wrapper hs-wrapper1">';
+					mobileModalFormItem +=
+						'<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1"><div class="hs-wrapper hs-wrapper1">';
 					for (let i = 0; i < 5; i++) {
 						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
 					}
@@ -620,8 +621,8 @@
 			let newProductList = '';
 			let newProductForm = '';
 
-			let newProductListStr = getLocalStorage("newProductList");
-			if (hotProductListStr != null) {
+			let newProductListStr = getLocalStorage("newProductList") || '';
+			if (hotProductListStr != null && newProductListStr.length > 0) {
 				newProductList = JSON.parse(newProductListStr);
 			} else {
 				newProductList = await getNewProduct(4);
@@ -632,7 +633,8 @@
 					let mobileItem = newProductList[j];
 					let mobileModalFormItem = '';
 					mobileModalFormItem += '<div class="col-md-3 agileinfo_new_products_grid">';
-					mobileModalFormItem += '<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1"><div class="hs-wrapper hs-wrapper1">';
+					mobileModalFormItem +=
+						'<div class="agile_ecommerce_tab_left agileinfo_new_products_grid1"><div class="hs-wrapper hs-wrapper1">';
 					for (let i = 0; i < 5; i++) {
 						mobileModalFormItem += '<img src="' + mobileItem.productImage + '" alt=" " class="img-responsive" />';
 					}
@@ -650,7 +652,6 @@
 				}
 			}
 			$('#newProduct').html(newProductForm);
-
 		}
 
 		// --- function ---
@@ -682,6 +683,55 @@
 		// 获取产品列表
 		async function getProductPage(secondCategoryItemId) {
 			window.location.href = 'products.html?secondCategoryItemId=' + secondCategoryItemId;
+		}
+
+		// 查询购物车
+		async function searchCart() {
+			var cartItemListForm = '';
+
+			var totalFee = 0;
+
+			cartItemListForm += '<form><button type="button" class="sbmincart-closer">×</button><ul>';
+
+			var cartItemList = await getCartList();
+			// let cartListStr = getLocalStorage("cartList") || '';
+			// if (cartListStr.length > 0) {
+			// 	cartItemList = JSON.parse(cartListStr);
+			// } else {
+			// 	cartItemList = await getCartList();
+			// 	inputToLocalStorage("cartList", JSON.stringify(cartItemList));
+			// }
+
+			for (let i = 0; i < cartItemList.length; i++) {
+				const element = cartItemList[i];
+
+				totalFee += element.productTotalFee;
+
+				let cartItemForm = '';
+				cartItemForm += '<li class="sbmincart-item"><div class="sbmincart-details-name">';
+				cartItemForm += '<span class="sbmincart-name">' + element.productName +
+					'</span><ul class="sbmincart-attributes"> </ul></div>';
+				cartItemForm += '<div class="sbmincart-details-quantity">';
+				cartItemForm +=
+					'<input class="sbmincart-quantity" data-sbmincart-idx="0" name="quantity_1" type="text" pattern="[0-9]*" value="' +
+					element.productNum + '" autocomplete="off"> </div>';
+				cartItemForm +=
+					'<div class="sbmincart-details-remove"><button onclick="removeCartItem(\'' + element.productId + '\',\'' + element
+					.skuProperties + '\')" type="button" class="sbmincart-remove">×</button></div>';
+				cartItemForm += '<div class="sbmincart-details-price"><span class="sbmincart-price">￥' + element.productTotalFee +
+					'</span></div></li>';
+
+				cartItemListForm += cartItemForm;
+			}
+
+			cartItemListForm += '</ul>'
+			cartItemListForm += '<div class="sbmincart-footer">'
+			cartItemListForm += '<div class="sbmincart-subtotal"> Subtotal: ￥' + totalFee + ' </div>';
+			cartItemListForm += '<button onclick="intoOrder()" class="sbmincart-submit" type="submit">To Pay</button>';
+			cartItemListForm += '</div></form>';
+
+			$('#w3lssbmincart').html(cartItemListForm);
+
 		}
 
 		// 获取产品详情 modal
@@ -723,10 +773,12 @@
 				let skuValue = productDetail.list[i];
 
 				for (let j = 0; j < skuValue.length; j++) {
-					const element = skuValue[j];
+					const valueElement = skuValue[j];
 					skuGroupForm += '<li>';
-					skuGroupForm += '<input type="radio" name="sku' + point + '" id="sku' + point + '-' + j + '" value="' + element.id +
-						'"> ' + element.value;
+					skuGroupForm += '<input type="radio" onclick="searchSku()" name="sku' + point + '" id="sku' + point + '-' + j +
+						'" value="' +
+						valueElement.id +
+						'"> ' + valueElement.value;
 					skuGroupForm += '</li>';
 				}
 
@@ -734,15 +786,17 @@
 
 				productDetailMessageForm += skuGroupForm;
 			}
+			productDetailMessageForm += '<input id="productId" type="hidden" value="' + productDetail.product.id + '">';
 			productDetailMessageForm += '<br/>';
 			productDetailMessageForm += '<div class="modal_body_right_cart simpleCart_shelfItem">';
-			productDetailMessageForm += '<p><span>￥' + productDetail.product.originalPrice +
-				'</span><i class="item_price">￥' + productDetail.product.listPrice + '</i></p>';
+			productDetailMessageForm += '<p><span id="originalPrice">￥' + productDetail.product.originalPrice +
+				'</span><i id="listPrice" class="item_price">￥' + productDetail.product.listPrice + '</i></p>';
 			productDetailMessageForm += '<div class="modal_body_right_cart simpleCart_shelfItem">';
-			productDetailMessageForm += '<button type="submit" onclick="addCartContainSku(' + productDetail.product.id +
-				',1,' + mainPicture + ')" class="w3ls-cart">Add to cart</button></div>';
+			productDetailMessageForm += '<button type="submit" onclick="addCartContainSku(\'' + productDetail.product.id +
+				'\',1,\'' + mainPicture + '\')" class="w3ls-cart">Add to cart</button> </div>';
 
 			$('#productDetailMessage').html(productDetailMessageForm);
+
 
 		}
 
@@ -753,69 +807,75 @@
 
 		// 添加购物车
 		async function addCart(productId, num, productPicture) {
-
-			console.log(productId);
-			console.log(num);
-			console.log(productPicture);
-
-			// $('#w3lssbmincart').show();
-			// $('#cartItemForm').show();
+			addOne(productPicture, productId, num, "");
 		}
 
 		// modal 详情页 添加购物车
 		async function addCartContainSku(productId, num, productPicture) {
-
-		}
-
-		// 查询购物车
-		async function searchCart() {
-			var cartItemListForm = '';
-
-			var totalFee = 0;
-
-			cartItemListForm += '<form><button type="button" class="sbmincart-closer">×</button><ul>';
-
-			var cartItemList = await getCartList();
-			for (let i = 0; i < cartItemList.length; i++) {
-				const element = cartItemList[i];
-
-				totalFee += element.productTotalFee;
-
-				let cartItemForm = '';
-				cartItemForm += '<li class="sbmincart-item"><div class="sbmincart-details-name">';
-				cartItemForm += '<span class="sbmincart-name">' + element.productName +
-					'</span><ul class="sbmincart-attributes"> </ul></div>';
-				cartItemForm += '<div class="sbmincart-details-quantity">';
-				cartItemForm +=
-					'<input class="sbmincart-quantity" data-sbmincart-idx="0" name="quantity_1" type="text" pattern="[0-9]*" value="' +
-					element.productNum + '" autocomplete="off"> </div>';
-				cartItemForm +=
-					'<div class="sbmincart-details-remove"><button onclick="removeCartItem(\'' + element.productId + '\',\'' + element
-					.skuProperties + '\')" type="button" class="sbmincart-remove">×</button></div>';
-				cartItemForm += '<div class="sbmincart-details-price"><span class="sbmincart-price">￥' + element.productTotalFee +
-					'</span></div></li>';
-
-				cartItemListForm += cartItemForm;
+			if ($("#skuGroup1").length > 0) {
+				var sku1Value = $("input[name='sku1']:checked").val() || '';
+				// var productId = $("#productId").val() || 0;
+				if (sku1Value.length <= 0) {
+					addCart(productId, num, productPicture);
+					window.location.href = 'index.html';
+				}
+				if ($("#skuGroup2").length > 0) {
+					var sku2Value = $("input[name='sku2']:checked").val() || '';
+					if (sku2Value != null && sku2Value.length > 0) {
+						let props = sku1Value + ',' + sku2Value;
+						addOne(productPicture, productId, num, props);
+						window.location.href = 'index.html';
+					}
+				} else {
+					addCart(productId, num, productPicture);
+					window.location.href = 'index.html';
+				}
+			} else {
+				addOne(productPicture, productId, num, "");
+				window.location.href = 'index.html';
 			}
-
-			cartItemListForm += '</ul>'
-			cartItemListForm += '<div class="sbmincart-footer">'
-			cartItemListForm += '<div class="sbmincart-subtotal"> Subtotal: ￥' + totalFee + ' </div>';
-			cartItemListForm += '<button onclick="intoOrder()" class="sbmincart-submit" type="submit">To Pay</button>';
-			cartItemListForm += '</div></form>';
-
-			$('#w3lssbmincart').html(cartItemListForm);
-
 		}
 
-		// 删除购物车产品
+		// 删除购物车单个产品
 		async function removeCartItem(productId, props) {
-
+			if (confirm("确认要删除吗？") == true) {
+				deleteInBatch(productId, props);
+			}
 		}
 
 		// 下订单
 		async function intoOrder() {
 			alert("下订单");
+		}
+
+		async function searchSku() {
+			if ($("#skuGroup1").length > 0) {
+				var sku1Value = $("input[name='sku1']:checked").val() || '';
+				var productId = $("#productId").val() || 0;
+				if ($("#skuGroup2").length > 0) {
+					var sku2Value = $("input[name='sku2']:checked").val() || '';
+					if (sku2Value != null && sku2Value.length > 0) {
+						let props = sku1Value + ',' + sku2Value;
+						var productDetail = await detail(productId, props);
+						// 去除原价，更新产品价格
+						updateModalProductPrice(productDetail.productWebDetailList.productPrice);
+					}
+				} else {
+					var productDetail = await detail(productId, sku1Value);
+					// 去除原价，更新产品价格
+					updateModalProductPrice(productDetail.productWebDetailList.productPrice);
+				}
+			}
+		}
+
+		async function detail(productId, props) {
+			var productDetail = await getProductDetail(productId, props);
+			return productDetail;
+		}
+
+		async function updateModalProductPrice(productPrice) {
+			$("#originalPrice").hide();
+			$("#listPrice").html('￥' + productPrice);
 		}
 	</script>
 
@@ -1084,30 +1144,7 @@
 
 	<!-- cart content -->
 	<div id="w3lssbmincart">
-		<!-- <form id="cartItemForm">
-			<button type="button" class="sbmincart-closer">×</button>
-			<ul id="cartItemList">
-				<li class="sbmincart-item">
-					<div class="sbmincart-details-name">
-						<span class="sbmincart-name">Mobile Phone1</span>
-						<ul class="sbmincart-attributes"> </ul>
-					</div>
-					<div class="sbmincart-details-quantity">
-						<input class="sbmincart-quantity" data-sbmincart-idx="0" name="quantity_1" type="text" pattern="[0-9]*" value="1" autocomplete="off"> </div>
-					<div class="sbmincart-details-remove">
-						<button type="button" class="sbmincart-remove" data-sbmincart-idx="0">×</button>
-					</div>
-					<div class="sbmincart-details-price">
-						<span class="sbmincart-price">350.00</span>
-					</div>
-				</li>
-
-			</ul>
-			<div id="toPay" class="sbmincart-footer">
-				<div class="sbmincart-subtotal"> Subtotal: ￥652.00 </div>
-				<button class="sbmincart-submit" type="submit">Pay More</button>
-			</div>
-		</form> -->
+		
 	</div>
 	<!-- //cart content -->
 

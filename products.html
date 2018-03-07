@@ -307,9 +307,11 @@
 				<form action="#" method="post" class="last">
 					<input type="hidden" name="cmd" value="_cart" />
 					<input type="hidden" name="display" value="1" />
+
 					<button class="w3view-cart" type="submit" name="submit" value="">
-						<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+						<i onclick="searchCart()" class="fa fa-cart-arrow-down" aria-hidden="true"></i>
 					</button>
+
 				</form>
 			</div>
 		</div>
@@ -423,6 +425,48 @@
 		// 获取产品列表
 		async function getProductPage(secondCategoryItemId) {
 			window.location.href = 'products.html?secondCategoryItemId=' + secondCategoryItemId;
+		}
+
+		// 查询购物车
+		async function searchCart() {
+			var cartItemListForm = '';
+
+			var totalFee = 0;
+
+			cartItemListForm += '<form><button type="button" class="sbmincart-closer">×</button><ul>';
+
+			var cartItemList = await getCartList();
+
+			for (let i = 0; i < cartItemList.length; i++) {
+				const element = cartItemList[i];
+
+				totalFee += element.productTotalFee;
+
+				let cartItemForm = '';
+				cartItemForm += '<li class="sbmincart-item"><div class="sbmincart-details-name">';
+				cartItemForm += '<span class="sbmincart-name">' + element.productName +
+					'</span><ul class="sbmincart-attributes"> </ul></div>';
+				cartItemForm += '<div class="sbmincart-details-quantity">';
+				cartItemForm +=
+					'<input class="sbmincart-quantity" data-sbmincart-idx="0" name="quantity_1" type="text" pattern="[0-9]*" value="' +
+					element.productNum + '" autocomplete="off"> </div>';
+				cartItemForm +=
+					'<div class="sbmincart-details-remove"><button onclick="removeCartItem(\'' + element.productId + '\',\'' + element
+					.skuProperties + '\')" type="button" class="sbmincart-remove">×</button></div>';
+				cartItemForm += '<div class="sbmincart-details-price"><span class="sbmincart-price">￥' + element.productTotalFee +
+					'</span></div></li>';
+
+				cartItemListForm += cartItemForm;
+			}
+
+			cartItemListForm += '</ul>'
+			cartItemListForm += '<div class="sbmincart-footer">'
+			cartItemListForm += '<div class="sbmincart-subtotal"> Subtotal: ￥' + totalFee + ' </div>';
+			cartItemListForm += '<button onclick="intoOrder()" class="sbmincart-submit" type="submit">To Pay</button>';
+			cartItemListForm += '</div></form>';
+
+			$('#w3lssbmincart').html(cartItemListForm);
+
 		}
 	</script>
 
@@ -1902,6 +1946,12 @@
 		});
 	</script>
 	<!-- //cart-js -->
+
+	<!-- cart content -->
+	<div id="w3lssbmincart">
+
+	</div>
+	<!-- //cart content -->
 </body>
 
 </html>
