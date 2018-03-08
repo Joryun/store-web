@@ -295,7 +295,7 @@ async function getNewProduct(num) {
 
 // 获取购物车列表
 async function getCartList() {
-    var token = getLocalStorage('token'),
+    var token = getLocalStorage('token') || '',
         data = [];
     await $.ajax({
         url: `${api}/cart/list`,
@@ -536,4 +536,171 @@ function getCode() {
             }, 1000);
         }
     })
+}
+
+/**
+ * 地址模块
+ */
+
+//获取用户默认地址
+async function getDefaultAddressApi() {
+    var token = getLocalStorage('token'),
+        data = [];
+    await $.ajax({
+        url: `${api}/address/defaultAddress`,
+        method: 'GET',
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        contentType: "application/json",
+        dataType: "json",
+        success: function (res) {
+            data = res;
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+            }
+        }
+    });
+
+    return data;
+}
+
+/**
+ * 订单模块
+ */
+
+//下订单
+async function createOrderApi() {
+
+    var address = await getDefaultAddressApi();
+    console.log(address);
+    if (address.length <= 0) {
+        alert("用户不存在默认地址");
+    }
+
+    var token = getLocalStorage('token') || '';
+    data = [];
+    await $.ajax({
+        url: `${api}/order/create`,
+        type: 'POST',
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        data: JSON.stringify({
+            "addressId": address.id,
+            "endDeliveryTime": "",
+            "startDeliveryTime": ""
+        }),
+        success: function (res) {
+            data = res;
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+                alert("Failed");
+            }
+        }
+    });
+    return data;
+}
+
+//获取订单列表
+async function getOrderListApi(orderState) {
+    var token = getLocalStorage('token') || '',
+        data = [];
+    await $.ajax({
+        url: `${api}/order/list?orderState=` + orderState,
+        method: 'GET',
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        contentType: "application/json",
+        dataType: "json",
+        success: function (res) {
+            data = res;
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+            }
+        }
+    });
+
+    return data;
+}
+
+//订单支付
+async function orderPayApi(orderId) {
+    var token = getLocalStorage('token') || '';
+    data = [];
+
+    debugger
+    await $.ajax({
+        url: `${api}/order/pay?orderId=` + orderId,
+        type: 'POST',
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        // data: JSON.stringify({
+        //     "orderId": orderId
+        // }),
+        success: function (res) {
+            data = res;
+            alert("支付成功");
+            window.location.href = 'orderList.html';
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+                alert("Failed");
+            }
+        }
+    });
+    return data;
 }

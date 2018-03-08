@@ -67,6 +67,7 @@
 
 	<script src="js/global.js"></script>
 	<script src="js/api.js"></script>
+	<script src="js/area.js"></script>
 
 	<!-- 进入主页，弹出框是否弹出控制 -->
 
@@ -297,7 +298,7 @@
 				<form action="#" method="post" class="last">
 					<input type="hidden" name="cmd" value="_cart" />
 					<input type="hidden" name="display" value="1" />
-					
+
 					<button class="w3view-cart" type="submit" name="submit" value="">
 						<i onclick="searchCart()" class="fa fa-cart-arrow-down" aria-hidden="true"></i>
 					</button>
@@ -312,6 +313,10 @@
 			pre();
 		});
 		async function pre() {
+
+			let areaData = areaList();
+			// let areaData = `${areaList}`;
+
 			// 1、判断LocalStorage 2、判断token是否有效或过期
 			var token = getLocalStorage('token') || '';
 			if (token.length == 0) {
@@ -725,7 +730,7 @@
 			cartItemListForm += '</ul>'
 			cartItemListForm += '<div class="sbmincart-footer">'
 			cartItemListForm += '<div class="sbmincart-subtotal"> Subtotal: ￥' + totalFee + ' </div>';
-			cartItemListForm += '<button onclick="intoOrder()" class="sbmincart-submit" type="submit">To Pay</button>';
+			cartItemListForm += '<span onclick="intoOrder()" class="sbmincart-submit" type="submit">To Pay</span>';
 			cartItemListForm += '</div></form>';
 
 			$('#w3lssbmincart').html(cartItemListForm);
@@ -843,7 +848,8 @@
 
 		// 下订单
 		async function intoOrder() {
-			alert("下订单");
+			let orderData = await createOrderApi();
+			window.location.href = 'orderList.html';
 		}
 
 		// 查找sku组合价格

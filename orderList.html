@@ -403,16 +403,18 @@
       }
 
       // 获取产品列表
-      let secondCategoryId = '';
-      var requestUrl = location.search || '';
+      // let secondCategoryId = '';
+      // var requestUrl = location.search || '';
 
-      if (requestUrl.length > 0 && requestUrl.indexOf("?") != -1) {
-        let str = requestUrl.split("=");
-        if (str.length > 0) {
-          secondCategoryId = str[1];
-        }
-      }
-      fillProductList(secondCategoryId);
+      // if (requestUrl.length > 0 && requestUrl.indexOf("?") != -1) {
+      //   let str = requestUrl.split("=");
+      //   if (str.length > 0) {
+      //     secondCategoryId = str[1];
+      //   }
+      // }
+
+      //填充
+      // fillProductList(secondCategoryId);
 
       // 详情modal隐藏时执行清空操作
       $('#myModal').on('hide.bs.modal', function () {
@@ -420,6 +422,12 @@
         $('#productMainPicture').html(productDetailForm);
         $('#productDetailMessage').html(productDetailForm);
       });
+
+
+      //填充order list
+      fillOrderList();
+
+
     }
 
     // --- funciton ---
@@ -465,7 +473,7 @@
       cartItemListForm += '</ul>'
       cartItemListForm += '<div class="sbmincart-footer">'
       cartItemListForm += '<div class="sbmincart-subtotal"> Subtotal: ￥' + totalFee + ' </div>';
-      cartItemListForm += '<button onclick="intoOrder()" class="sbmincart-submit" type="submit">To Pay</button>';
+      cartItemListForm += '<span onclick="intoOrder()" class="sbmincart-submit" type="submit">To Pay</span>';
       cartItemListForm += '</div></form>';
 
       $('#w3lssbmincart').html(cartItemListForm);
@@ -640,7 +648,8 @@
 
     // 下订单
     async function intoOrder() {
-      alert("下订单");
+      let orderData = await createOrderApi();
+      window.location.href = 'orderList.html';
     }
 
     // 查找sku组合价格
@@ -674,6 +683,83 @@
     async function updateModalProductPrice(productPrice) {
       $("#originalPrice").hide();
       $("#listPrice").html('￥' + productPrice);
+    }
+
+    //填充order list
+    async function fillOrderList() {
+      let orderState = "CREATE";
+      let orderList = await getOrderListApi(orderState);
+      let orderListContentForm = '';
+      let orderItemList = orderList[0].orderItemDetailVOList;
+
+      if (orderItemList.length > 0) {
+        for (let i = 0; i < orderItemList.length; i++) {
+          const element = orderItemList[i];
+
+          let props = (element.props).length > 0 ? (element.props) : "无";
+
+          let orderItemForm =
+            `
+          <tr>
+              <td>
+                <img style="width:80px;height:80px" src="${element.mainProduct}"></img>
+              </td>
+              <td>
+                <code>${element.productName}</code>
+              </td>
+              <td>
+                <span>${props}</span>
+              </td>
+              <td>
+                <span>${element.productPrice}</span>
+              </td>
+              <td>
+                <span class="badge badge-primary">${element.totalNum}</span>
+              </td>
+              <td>
+                <span>${element.totalFee}</span>
+              </td>
+            </tr>
+          `;
+
+          orderListContentForm += orderItemForm;
+        }
+
+        let totalMessageForm =
+          `
+        <tr>
+            <td>
+              <span class="sbmincart-price">Total：
+              <b>${orderList[0].order.totalFee}</b>
+              </span>
+            </td>
+        </tr>
+
+        `;
+
+        orderListContentForm += totalMessageForm;
+
+        orderListContentForm += `<input type="hidden" id="orderId" name="orderId" value="${orderList[0].order.id}" />`;
+
+      }
+
+      $("#orderListContent").html(orderListContentForm);
+    }
+
+    async function gotoPay() {
+      let orderId = $('#orderId').val() || '';
+      if (orderId == null || orderId.length <= 0) {
+        alert("当前并无未支付订单！！！")
+      }
+      let res = await orderPayApi(orderId);
+    }
+
+    async function cancelOrder() {
+      let orderId = $('#orderId').val() || '';
+      if (orderId == null || orderId.length <= 0) {
+        alert("当前并无未支付订单！！！")
+      }
+
     }
   </script>
 
@@ -743,22 +829,6 @@
                 </li>
               </ul>
             </li>
-            <!-- <li class="w3pages">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="icons.html">Web Icons</a>
-                </li>
-                <li>
-                  <a href="codes.html">Short Codes</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="mail.html">Mail Us</a>
-            </li> -->
           </ul>
         </div>
       </nav>
@@ -789,6 +859,7 @@
     </div>
   </div>
   <!-- //breadcrumbs -->
+
   <!-- mobiles -->
   <div class="mobiles">
     <div class="container">
@@ -809,84 +880,15 @@
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-              <td>
-                <span>test</span>
-              </td>
-              <td>
-                <code>.badge-primary</code>
-              </td>
-              <td>
-                <span>test</span>
-              </td>
-              <td>
-                <span>test</span>
-              </td>
-              <td>
-                <span class="badge badge-primary">1</span>
-              </td>
-              <td>
-                <span>test</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <span>test</span>
-              </td>
-              <td>
-                <code>.badge-primary</code>
-              </td>
-              <td>
-                <span>test</span>
-              </td>
-              <td>
-                <span>test</span>
-              </td>
-              <td>
-                <span class="badge badge-primary">1</span>
-              </td>
-              <td>
-                <span>test</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <span class="sbmincart-price">Total：<b>￥500</b></span>
-              </td>
-            </tr>
+          <tbody id="orderListContent">
 
           </tbody>
         </table>
 
         <div class="sign-up">
-          <input type="submit" value="Submit" />
-          <input type="submit" value="Cancel" />
+          <input type="submit" value="Submit" onclick="gotoPay()" />
+          <input type="submit" value="Cancel" onclick="cancelOrder()" />
         </div>
-
-
-        <!-- <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
-        <div class="facts">
-          <div class="register">
-            <form>
-              <div class="sign-up">
-                <input type="submit" value="Create Account" />
-                <input type="submit" value="Create Account" />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div> -->
-
-        <!-- <div class="sign-up">
-        <input type="submit" value="Cancel" />
-        <input type="submit" value="Pay" />
-      </div> -->
-
-        <!-- <button onclick="" class="w3ls-cart">Cancel</button>
-      <button onclick="" class="w3ls-cart">Pay</button> -->
 
       </div>
     </div>
