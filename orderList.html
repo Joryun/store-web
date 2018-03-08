@@ -749,15 +749,26 @@
     async function gotoPay() {
       let orderId = $('#orderId').val() || '';
       if (orderId == null || orderId.length <= 0) {
-        alert("当前并无未支付订单！！！")
+        alert("当前并无未支付订单！！！");
+      } else {
+        if (confirm("确认支付吗？") == true) {
+          let res = await orderPayApi(orderId);
+        } else {
+          window.location.href = 'orderList.html';
+        }
       }
-      let res = await orderPayApi(orderId);
     }
 
     async function cancelOrder() {
       let orderId = $('#orderId').val() || '';
       if (orderId == null || orderId.length <= 0) {
-        alert("当前并无未支付订单！！！")
+        alert("当前并无未支付订单！！！");
+      } else {
+        if (confirm("确认取消订单吗？") == true) {
+          let res = await cancelOrderApi(orderId);
+        } else {
+          window.location.href = 'orderList.html';
+        }
       }
 
     }

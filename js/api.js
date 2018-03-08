@@ -668,7 +668,6 @@ async function orderPayApi(orderId) {
     var token = getLocalStorage('token') || '';
     data = [];
 
-    debugger
     await $.ajax({
         url: `${api}/order/pay?orderId=` + orderId,
         type: 'POST',
@@ -683,6 +682,47 @@ async function orderPayApi(orderId) {
         success: function (res) {
             data = res;
             alert("支付成功");
+            window.location.href = 'orderList.html';
+        },
+        error: function (res) {
+            if (res.status === 400) {
+                console.log('status：400');
+                let responseText = res.responseText;
+                let response = JSON.parse(responseText);
+                alert(response.msg);
+            }
+            if (res.status === 401) {
+                console.log('无权限');
+                toLogin();
+            }
+            if (res.status === 500) {
+                console.log('失败了哦！');
+                alert("Failed");
+            }
+        }
+    });
+    return data;
+}
+
+//取消订单
+async function cancelOrderApi(orderId) {
+    var token = getLocalStorage('token') || '';
+    data = [];
+
+    await $.ajax({
+        url: `${api}/order/cancel?orderId=` + orderId,
+        type: 'DELETE',
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        headers: {
+            Authorization: 'token ' + token,
+        },
+        // data: JSON.stringify({
+        //     "orderId": orderId
+        // }),
+        success: function (res) {
+            data = res;
+            alert("成功取消订单");
             window.location.href = 'orderList.html';
         },
         error: function (res) {
