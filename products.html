@@ -589,14 +589,14 @@
 			var productPageForm = $("#productData").html();
 			newProductPageForm += productPageForm;
 
-			var productData = '';
-			var productDataStr = getLocalStorage("productData") || '';
-			if (productDataStr != null && productDataStr.length > 0) {
-				productData = JSON.parse(productDataStr);
-			} else {
-				productData = await getProductPageApi('', '', '', secondCategoryId);
-				inputToLocalStorage("productData", JSON.stringify(productData));
-			}
+			var productData = await getProductPageApi('', '', '', secondCategoryId);
+			// var productDataStr = getLocalStorage("productData") || '';
+			// if (productDataStr != null && productDataStr.length > 0) {
+			// 	productData = JSON.parse(productDataStr);
+			// } else {
+			// 	productData = await getProductPageApi('', '', '', secondCategoryId);
+			// 	inputToLocalStorage("productData", JSON.stringify(productData));
+			// }
 
 			var productDataForm = '';
 

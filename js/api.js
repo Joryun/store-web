@@ -412,7 +412,7 @@ async function deleteInBatch(productId, propertiesGroup) {
  */
 
 // 用户登录
-function userLogin() {
+async function userLogin() {
     var phone = $('#sign-in-phone'),
         password = $('#sign-in-password');
     var phoneNum = phone.val(),
@@ -423,7 +423,7 @@ function userLogin() {
         return false;
     }
 
-    $.ajax({
+    await $.ajax({
         url: `${api}/user/login/account`,
         type: 'POST',
         dataType: 'json',
